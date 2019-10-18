@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const Patient = require('../models/patient');
+const Patient = require('../models/Patient');
 
 router.get ('/', (req,res) => {
     res.send('Welcome to Patient Monitor from route');

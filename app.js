@@ -5,8 +5,6 @@ require('dotenv').config();
 
 app.use(express.json());
 
-Patient = require('./models/patient');
-
 mongoose.connect(process.env.PATIENT_MONITOR_MONGO, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, 
 useFindAndModify:false });
 const db = mongoose.connection;
@@ -16,7 +14,7 @@ const db = mongoose.connection;
 // });
 
 //TRYING TO ADD ROUTES
-app.use('/patient', require('./routes/Patient'));
+app.use('/patient', require('./routes/patient'));
 
 var port = process.env.PATIENT_MONITOR_PORT || 5500;
 
