@@ -25,10 +25,4 @@ const patientSchema = mongoose.Schema({
     }
 });
 
-const Patient = module.exports = mongoose.model ('Patient', patientSchema);
-
-//Get Patients
-module.exports.getPatients = function (callback,limit) {
-   // Patient.find(callback).limit(limit);
-    Patient.find();
-}
+module.exports = mongoose.model ('Patient', patientSchema);
