@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">           
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/e737345155.js" crossorigin="anonymous"></script>
+    <title>Create Patient</title>
+</head>
+
+<body>
+<div class="container">
+    <div class="page-header">
+        <h1 class="text-center" style = font-family:Georgia> <i class="fa fa-heartbeat" style = "color:rgb(143, 68, 68)"></i>Patient Monitoring System <i class="fa fa-stethoscope" style ="color:rgb(143, 68, 68)"></i></h1>  
+    </div>
+</div>
+
+<nav class="navbar navbar-inverse">
+    <div class = "container-fluid">
+        <!-- <div class = "navbar-header" style = "font-size: medium; color:rgb(143, 68, 68)"> Patient Monitor Menu </div> -->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>                        
+        </button>
+            <div class="navbar-brand" style = "font-size: medium; color:rgb(143, 68, 68)" href="#">Patient Monitor Menu</div>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class = "nav navbar-nav navbar-right">
+            <li>  <a href="index.html">Home <span class="glyphicon glyphicon-home"></span> </a></span> </li>
+            <li> <a href ="#">Administrators <i class="fa fa-user-md"></i> </a> </li>
+            <li class = "dropdown">
+            <a class = "dropdown-toggle" data-toggle="dropdown" href="#">Patient Menu <i class="fa fa-wheelchair"></i> <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="addPatient.html">Add New Patient</a></li>
+                  <li class="dropdown-submenu" style="position: relative;">
+                        <a class="test" href="#">View Patients <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="viewPatients.html">View All Patients</a></li>
+                            <li><a href="viewPatient.html">View Patient by ID</a></li>
+                        </ul>
+                    </li>
+                  <li><a href="updatePatient.html">Update Patient</a></li>
+                  <li><a href="deletePatient.html">Delete Patient</a></li>
+                </ul>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container" style="text-align: center; width: 600px; height: 600px;">
+    <h4 class="text-center">Add New Patient</h4>
+    <form id="create-form">
+        <div class="form-group" style="display: inline-block;">
+            <label for="name">Name:</label>
+            <input type="text" autocomplete="off" class="form-control" id="name" placeholder="Enter first and last name">
+            <label for="age">Age:</label>
+            <input type="text" class="form-control" id="age" placeholder="Enter age">
+            <label for="patientId">Patient ID:</label>
+            <input type="text" class="form-control" id="patientId" placeholder="Enter patient ID">
+            <label for="pulseRate">Pulse Rate</label>
+                <form class="form-inline">
+                    <div class="form-group">
+                        <label for="lowPulse">Lower Limit:</label>
+                        <input type="text" class="form-control:" id="lowPulse">
+                        <label for="highPulse">Upper Limit:</label>
+                        <input type="text" class="form-control:" id="highPulse">
+                    </div>
+                </form>
+            <label for="bloodPressure">Blood Pressure</label>
+                <form class="form-inline">
+                    <div class="form-group">
+                        <label for="lowBP">Lower Limit:</label>
+                        <input type="text" class="form-control:" id="lowBP">
+                        <label for="highBP">Upper Limit:</label>
+                        <input type="text" class="form-control:" id="highBP">
+                    </div>
+                </form>
+            <label for="temperature">Temperature:</label>
+                <form class="form-inline">
+                    <div class="form-group">
+                        <label for="lowTemp">Lower Limit:</label>
+                        <input type="text" class="form-control:" id="lowTemp">
+                        <label for="highTemp">Upper Limit:</label>
+                        <input type="text" class="form-control:" id="highTemp">
+                    </div>
+                </form>
+                <div>
+                    <button type="submit" id="addPatient" class="btn btn-default btn-block">Create Patient</button>
+                </div>
+        </div>
+    </form>
+</div>
+  
+<script>
+$(document).ready(function(){
+    $('.dropdown-submenu a.test').on("click", function(e){
+        $(this).next('ul').toggle();
+        e.stopPropagation();
+        e.preventDefault();
+    });
+});
+</script>
+
+<script>
+    document.getElementById("addPatient").addEventListener("click", (e)=>{
+        e.preventDefault();
+        var name = $("#name").val();
+        var age = $("#age").val();
+        var patientId = $("#patientId").val();
+        var pulseRateLow = $("#lowPulse").val();
+        var puslseRateHigh = $("#highPulse").val();
+        var bloodPressureLow = $("#lowBP").val();
+        var bloodPressureHigh = $("#highBP").val();
+        var temperatureLow = $("#lowTemp").val();
+        var temperatureHigh = $("#highTemp").val();
+
+        $.ajax("http://localhost:5400/patient/",{
+            contentType: 'application/json',
+            data: JSON.stringify({
+                "name":name,
+                "age":age,
+                "patientId":patientId,
+                "pulseRateLow":pulseRateLow,
+                "puslseRateHigh":puslseRateHigh,
+                "bloodPressureLow":bloodPressureLow,
+                "bloodPressureHigh":bloodPressureHigh,
+                "temperatureLow":temperatureLow,
+                "temperatureHigh":temperatureHigh
+            }),
+            type: 'POST'
+        });
+    });
+</script>
+
+</body>
+</html>

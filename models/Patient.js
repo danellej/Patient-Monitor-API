@@ -14,13 +14,22 @@ const patientSchema = mongoose.Schema({
         type:String,
         required:true
     },
-    pulseRate: {
+    pulseRateLow: {
         type: String
     },
-    bloodPressure: {
+    bloodPressureLow: {
         type:String,
     },
-    temperature: {
+    temperatureLow: {
+        type:String
+    },
+    pulseRateHigh: {
+        type: String
+    },
+    bloodPressureHigh: {
+        type:String,
+    },
+    temperatureHigh: {
         type:String
     }
 });

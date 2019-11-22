@@ -1,10 +1,16 @@
 const express = require('express');
 const router = express.Router();
+var app = express();
+var http = require('http');
+var server = http.createServer(app);
+var io = require('socket.io')(server);
+var path = require('path');
 
 const Patient = require('../models/Patient');
 
 router.get ('/', (req,res) => {
-    res.send('Welcome to Patient Monitor from route');
+    res.sendFile('index.html', {root: path.join(__dirname, '../')});
+    //res.send('Welcome to Patient Monitor from route');
 });
 
 router.get ('/1', (req,res) => {
@@ -17,11 +23,22 @@ router.post('/', function(req,res) {
         patientId: req.body.patientId,
         name : req.body.name,
         age: req.body.age,
+        pulseRateLow : req.body.pulseRateLow,
+        puslseRateHigh : req.body.puslseRateHigh,
+        bloodPressureLow : req.body.bloodPressureLow,
+        bloodPressureHigh : req.body.bloodPressureHigh,
+        temperatureLow : req.body.temperatureLow,
+        temperatureHigh : req.body.temperatureHigh
     });
     newPatient.save()
     .then ( (patient) => res.json(patient) )
     .catch ( (err) => res.sendStatus(400).json('Bad request'));
+
 });
+
+// io.on('connection', function (socket){
+//     socket.emit('newPatient', "New Patient Created");
+// });
 
 //Find all patients
 router.get('/all', function(req,res) {
@@ -33,6 +50,7 @@ router.get('/all', function(req,res) {
 
 //Find patient by id
 router.get('/:patientId', function (req, res){
+    console.log("route working");
     Patient.findOne({patientId: req.params.patientId}, function(err, patient) {
         if (err) throw err;
         res.json(patient);
@@ -55,7 +73,5 @@ router.delete('/:patientId', function(req,res){
         res.json('Deleted');
     })
 });
-
-//router.get('', app.welcome_page);
 
 module.exports = router;

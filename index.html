@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/e737345155.js" crossorigin="anonymous"></script>
+    <title>Patient Monitor</title>
+</head>
+
+<body>
+
+<div class="container">
+  <div class="page-header">
+    <h1 class="text-center" style = font-family:Georgia> <i class="fa fa-heartbeat" style = "color:rgb(143, 68, 68)"></i>Patient Monitoring System <i class="fa fa-stethoscope" style ="color:rgb(143, 68, 68)"></i></h1>  
+  </div>
+</div>
+
+<nav class="navbar navbar-inverse">
+  <div class = "container-fluid">
+    <!-- <div class = "navbar-header" style = "font-size: medium; color:rgb(143, 68, 68)"> Patient Monitor Menu </div> -->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>                        
+        </button>
+        <div class="navbar-brand" style = "font-size: medium; color:rgb(143, 68, 68)" href="#">Patient Monitor Menu</div>
+      </div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+    <ul class = "nav navbar-nav navbar-right">
+        <li>  <a href="index.html">Home <span class="glyphicon glyphicon-home"></span> </a></span> </li>
+        <li> <a href ="#">Administrators <i class="fa fa-user-md"></i> </a> </li>
+        <li class = "dropdown">
+          <a class = "dropdown-toggle" data-toggle="dropdown" href="#">Patient Menu <i class="fa fa-wheelchair"></i> <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="addPatient.html">Add New Patient</a></li>
+            <li class="dropdown-submenu" style="position: relative;">
+                <a class="test" href="#">View Patients <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="viewPatients.html">View All Patients</a></li>
+                    <li><a href="viewPatient.html">View Patient by ID</a></li>
+                </ul>
+            </li>
+            <li><a href="updatePatient.html">Update Patient</a></li>
+            <li><a href="deletePatient.html">Delete Patient</a></li>
+          </ul>
+        </li>
+      </ul>
+      </div>
+      </div>
+  </div>
+</nav>
+
+<div>
+  <h4 class="text-center">Patient Monitor Device Tutorial</h4>
+</div" >
+
+<script src="/socket.io/socket.io.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.slim.js" integrity="sha256-Dul4c09cdrWKXVtallPxF558lwxMwCC8dXJdZ0PVW54=" crossorigin="anonymous"></script> -->
+<script>
+  const socket = io.connect('http://localhost:5500');
+
+  socket.on('newPatient', (message) => {
+    //Insert HTML which displays patients
+    //patients.forEach(renderPatient);
+    console.log(message);
+  });
+
+  // function renderPatient(patient) {
+  //       document.getElementById(
+  //         'patientList'
+  //       ).innerHTML += `<div class="card bg-secondary my-3">
+  //             <div class="card-body">
+  //               <p class="lead">
+  //                 <div>ID: ${patient.patientId}</div>
+  //                 <div>Name: ${patient.name}</div>
+  //                 <div>Age: ${patient.age}</div>
+  //                 <small>${patient.time}</small>
+  //               </p>
+  //             </div>
+  //           </div>`;
+  //     }
+
+</script>
+
+<!-- jQuery to open the multi-level dropdown on click-->
+<script>
+    $(document).ready(function(){
+        $('.dropdown-submenu a.test').on("click", function(e){
+            $(this).next('ul').toggle();
+            e.stopPropagation();
+            e.preventDefault();
+        });
+    });
+</script>
+
+</body>
+</html>
