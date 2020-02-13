@@ -3,34 +3,49 @@ var mongoose = require('mongoose');
 const patientSchema = mongoose.Schema({
     patientId: {
         type: String,
-        required: true,
-        unique: true
+        required: true
     },
     name:{
-        type: String,
-        required:true
+        type: String
     },
     age: {
-        type:String,
-        required:true
+        type: Number
     },
     pulseRateLow: {
-        type: String
+        type: Number
     },
     bloodPressureLow: {
-        type:String,
+        type:Number
     },
     temperatureLow: {
-        type:String
+        type:Number
     },
-    pulseRateHigh: {
-        type: String
+    pulseRateHigh: { //doesn't add
+        type: Number
     },
     bloodPressureHigh: {
-        type:String,
+        type:Number
     },
     temperatureHigh: {
-        type:String
+        type:Number
+    },
+    nurseEmail: {
+        type: String
+    },
+    pulseRateCur: {
+        type: String
+    },
+    bloodPressureCur: {
+        type: String
+    },
+    temperatureCur: {
+        type: String
+    },
+    positionCur: {
+        type: String
+    },
+    alerts: {
+        type: Number
     }
 });
 

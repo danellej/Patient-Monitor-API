@@ -32,7 +32,13 @@
     <div class="collapse navbar-collapse" id="myNavbar">
         <ul class = "nav navbar-nav navbar-right">
             <li>  <a href="index.html">Home <span class="glyphicon glyphicon-home"></span> </a></span> </li>
-            <li> <a href ="#">Administrators <i class="fa fa-user-md"></i> </a> </li>
+            <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Administrators <i class="fa fa-user-md"></i><span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="adminLogin.html">Admin Login</a></li>
+                        <li><a href="newAdmin.html">New Admin</a></li>
+                    </ul>
+                  </li>
             <li class = "dropdown">
             <a class = "dropdown-toggle" data-toggle="dropdown" href="#">Patient Menu <i class="fa fa-wheelchair"></i> <span class="caret"></span></a>
                 <ul class="dropdown-menu">
@@ -66,9 +72,26 @@
         </div>
     </form>
 
-    <div>
+    <div style = text-align:left>
+        <p id="patientInfo"></p>
         <p id="patientName"></p>
         <p id="patientAge"></p>
+    </div>
+
+    <div>
+        <table id="patientTable" class="table-bordered">
+            <caption>Patient Thresholds and Current Data</caption>
+            <tr>
+                <th><b>Blood Pressure</b></th>
+                <th><b>Heart Rate</b></th>
+                <th><b>Temperature</b></th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>1</td>
+                <td>1</td>
+            </tr>
+        </table>
     </div>
 
 </div>
@@ -90,9 +113,21 @@ $(document).ready(function(){
         e.preventDefault();
         var patientId = $("#singlePatient").val();
       //  alert();
-        $.get("http://localhost:5400/patient/"+patientId, function(patientObject, status){
-            document.getElementById("patientName").innerHTML = patientObject.name;
-            document.getElementById("patientAge").innerHTML = patientObject.age;
+        $.get("http://localhost:3000/patient/"+patientId, function(patientObject, status){
+            var patientName = document.getElementById("patientName");
+            var patientAge = document.getElementById("patientAge");
+            var patientInfo = document.getElementById("patientInfo");
+            patientInfo.style.fontWeight = 'bold'; patientInfo.style.fontSize = '25px'
+            patientName.style.fontWeight = 'bold'; patientName.style.fontSize = '16px'
+            patientAge.style.fontWeight = 'bold'; patientAge.style.fontSize = '16px'
+            patientName.value = " ";
+            patientAge.value = " ";
+            patientInfo.innerHTML = "Patient Information ";
+            patientName.innerHTML = "Name: " + patientObject.name;
+            patientAge.innerHTML = "Age: " + patientObject.age;
+
+            var patientTable = document.getElementById("patientTable");
+
         });
 });
 </script>

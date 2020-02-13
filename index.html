@@ -33,7 +33,13 @@
       <div class="collapse navbar-collapse" id="myNavbar">
     <ul class = "nav navbar-nav navbar-right">
         <li>  <a href="index.html">Home <span class="glyphicon glyphicon-home"></span> </a></span> </li>
-        <li> <a href ="#">Administrators <i class="fa fa-user-md"></i> </a> </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Administrators <i class="fa fa-user-md"></i><span class="caret"></span></a>
+          <ul class="dropdown-menu">
+              <li><a href="adminLogin.html">Admin Login</a></li>
+              <li><a href="newAdmin.html">New Admin</a></li>
+          </ul>
+        </li>
         <li class = "dropdown">
           <a class = "dropdown-toggle" data-toggle="dropdown" href="#">Patient Menu <i class="fa fa-wheelchair"></i> <span class="caret"></span></a>
           <ul class="dropdown-menu">
