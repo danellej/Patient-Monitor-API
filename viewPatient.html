@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">           
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
     <script src="https://kit.fontawesome.com/e737345155.js" crossorigin="anonymous"></script>
     <title>View Patient</title>
 </head>
@@ -79,23 +80,16 @@
     </div>
 
     <div>
-        <table id="patientTable" class="table-bordered">
-            <caption>Patient Thresholds and Current Data</caption>
-            <tr>
-                <th><b>Blood Pressure</b></th>
-                <th><b>Heart Rate</b></th>
-                <th><b>Temperature</b></th>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-            </tr>
+        <table id="patientTable" class="table table-bordered">
+            <caption id="tableCaption"></caption>
         </table>
     </div>
 
-</div>
+    <div class="conainer">
+        <canvas id="tempChart"></canvas>
+    </div>
 
+</div>
 
 
 <script>
@@ -127,9 +121,70 @@ $(document).ready(function(){
             patientAge.innerHTML = "Age: " + patientObject.age;
 
             var patientTable = document.getElementById("patientTable");
+            
+            tableCaption.innerHTML = "Patient Thresholds";
+            // $("#patientTable").css("border", "1px solid #000");
+
+            $("#patientTable").append(`\
+            <thead>/
+            <tr>\
+                <th rowspan="2">Thresholds</th>\
+                <th>Blood Pressure (mmHg)</th>\
+                <th>Pulse Rate (bpm)</th>\
+                <th>Temperature (°C)</th>\
+            </tr>\
+            </thead>\
+            <tbody>\
+            <tr>\
+                <td></td>\
+                <td>${patientObject.bloodPressureLow}-${patientObject.bloodPressureHigh}</td>\
+                <td>${patientObject.pulseRateLow}-${patientObject.pulseRateHigh}</td>\
+                <td>${patientObject.temperatureLow}-${patientObject.temperatureHigh}</td>\
+            </tr>\
+            </tbody>\
+            `)
 
         });
 });
+</script>
+
+<script>
+    let tempChart = document.getElementById('tempChart').getContext('2d');
+
+    Chart.defaults.global.defaultFontFamily = 'Lato';
+    Chart.defaults.global.defaultFontSize = 18;
+    Chart.defaults.global.defaultFontColor = '#777';
+
+    let newChart = new Chart(tempChart, {
+        type: 'line',
+        data:{
+            datasets: [{
+            label:'',
+            data:[],
+            backgroundColor:[],
+            borderWidth:1,
+            borderColor: '#777'
+        }]
+        },
+        options:{
+            title:{
+                display:true,
+                text:'Current Patient Data',
+                fontSize:25
+            },
+            legend:{
+                display:false
+            },
+            scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+        }
+    });
+
 </script>
 
 </body>

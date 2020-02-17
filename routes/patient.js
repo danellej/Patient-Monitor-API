@@ -44,10 +44,10 @@ router.post('/parse', function (req, res){
 
     var newPatient = new Patient({
         patientId: patientData[0],
-        pulseRateCur : patientData[1], //pulseratecur
-        bloodPressureCur: patientData[2], //bloodpressurecur
-        temperatureCur : patientData[3],
-        positionCur : patientData[4]
+        temperatureCur : patientData[1], //pulseratecur
+        positionCur: patientData[2], //bloodpressurecur
+        pulseRateCur : patientData[3],
+        bloodPressureCur : patientData[4]
     });
     newPatient.save()
     .then ( (patient) => {
@@ -76,8 +76,8 @@ router.post('/parse', function (req, res){
             };
 
             transporter.sendMail(mailOptions, function(err, info){
-                if (error){
-                    console.log(error);
+                if (err){
+                    console.log(err);
                 }
                 else{
                     console.log('Email sent: ' + info.response);
@@ -86,18 +86,21 @@ router.post('/parse', function (req, res){
 
             if (/*(curPulseRate > result.puslseRateHigh) ||*/ (curPulseRate < result.pulseRateLow)){
                 console.log("Advise nurse about heart rate");
+                result.alerts++;
             }
             else {
                 console.log("Heart rate safe");
             }
             if ((curBloodPress > result.bloodPressureHigh) || (curBloodPress < result.bloodPressureLow)){
                 console.log("Advise nurse about blood pressure");
+                result.alerts++;
             }
             else {
                 console.log("blood pressure safe");
             }
             if ((curTemp > result.temperatureHigh) || (result < patient.temperatureLow)){
                 console.log("Advise nurse about temperature");
+                result.alerts++;
             }
             else {
                 console.log("Temperature safe");
@@ -121,11 +124,23 @@ router.get('/all', function(req,res) {
 
 //Find patient by id
 router.get('/:patientId', function (req, res){
-    console.log("route working");
+    // console.log("route working");
     Patient.findOne({patientId: req.params.patientId}, function(err, patient) {
         if (err) throw err;
         res.json(patient);
         //patient.bloodPressure.equals
+    });
+});
+
+router.get('/:patientId/all', function (req, res){
+    // console.log("route working");
+    // Patient.findOne({patientId: req.params.patientId}, function(err, patient) {
+    //     if (err) throw err;
+    //     res.json(patient);
+    //     //patient.bloodPressure.equals
+    // });
+    Patient.find({patientId:req.params.patientId}, function (err, docs){
+        res.json(docs);
     });
 });
 
