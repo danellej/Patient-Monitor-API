@@ -65,7 +65,7 @@
         <div class="form-group">
             <label class="control-label col-sm-2" for="patientId">Patient ID:</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="patientId" placeholder="Enter ID of Patient to be deleted">
+                <input type="text" autocomplete="off" class="form-control" id="patientId" placeholder="Enter ID of Patient to be deleted">
             </div>
         </div>
         <div>
@@ -92,7 +92,7 @@ $(document).ready(function(){
             url:'http://localhost:3000/patient/'+patientId,
             type:'DELETE'
         });
-
+        $("#delete-form")[0].reset();
     });
 </script>
 

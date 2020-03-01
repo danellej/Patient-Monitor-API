@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">           
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/canvasjs/1.7.0/canvasjs.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script> -->
     <script src="https://kit.fontawesome.com/e737345155.js" crossorigin="anonymous"></script>
     <title>View Patient</title>
 </head>
@@ -64,7 +65,7 @@
     <h4>View Patient by ID Number</h4>
     <form class="form-horizontal" id="delete-form">
         <div class="input-group">
-            <input type="text" id="singlePatient" class="form-control" placeholder="Enter patient ID number">
+            <input type="text" autocomplete="off" id="singlePatient" class="form-control" placeholder="Enter patient ID number">
             <div class="input-group-btn">
                 <button class="btn btn-default" type="submit" id="search">
                     <i class="glyphicon glyphicon-search"></i>
@@ -85,9 +86,11 @@
         </table>
     </div>
 
-    <div class="conainer">
+    <div class="container">
         <canvas id="tempChart"></canvas>
     </div>
+
+    <div id="chartContainer" style="height: 300px; width:100%"></div>
 
 </div>
 
@@ -106,7 +109,6 @@ $(document).ready(function(){
     document.getElementById("search").addEventListener("click", function(e){
         e.preventDefault();
         var patientId = $("#singlePatient").val();
-      //  alert();
         $.get("http://localhost:3000/patient/"+patientId, function(patientObject, status){
             var patientName = document.getElementById("patientName");
             var patientAge = document.getElementById("patientAge");
@@ -143,47 +145,33 @@ $(document).ready(function(){
             </tr>\
             </tbody>\
             `)
-
         });
+        // document.getElementById("singlePatient").value=" ";
 });
 </script>
 
 <script>
-    let tempChart = document.getElementById('tempChart').getContext('2d');
-
-    Chart.defaults.global.defaultFontFamily = 'Lato';
-    Chart.defaults.global.defaultFontSize = 18;
-    Chart.defaults.global.defaultFontColor = '#777';
-
-    let newChart = new Chart(tempChart, {
-        type: 'line',
-        data:{
-            datasets: [{
-            label:'',
-            data:[],
-            backgroundColor:[],
-            borderWidth:1,
-            borderColor: '#777'
-        }]
-        },
-        options:{
+    document.getElementById("search").addEventListener("click", function(e){
+        e.preventDefault();
+        var dataPoints = [];
+        var chart = new CanvasJS.Chart("chartContainer",{
             title:{
-                display:true,
-                text:'Current Patient Data',
-                fontSize:25
+                text:"Patient Blood Pressure Chart"
             },
-            legend:{
-                display:false
-            },
-            scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
+            data:[{
+                type: "line",
+                dataPoints : dataPoints,
             }]
-        }
-        }
-    });
+        });
+        var patientId = $("#singlePatient").val();
+        $.getJSON(`http://localhost:3000/patient/${patientId}/all`, function(data){
+            $.each(data, function(key, value){
+                console.log(value.name)
+                dataPoints.push({x:0, y:value.bloodPressureHigh});
+            });
+            chart.render();
+        });
+});
 
 </script>
 

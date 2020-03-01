@@ -46,6 +46,9 @@ const patientSchema = mongoose.Schema({
     },
     alerts: {
         type: Number
+    },
+    date: {
+        type: Date
     }
 });
 

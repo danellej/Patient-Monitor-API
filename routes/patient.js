@@ -59,6 +59,8 @@ router.post('/parse', function (req, res){
         var curBloodPress = parseInt(patient.bloodPressureCur);
         var curTemp = parseInt(patient.temperatureCur);
 
+        var date = new Date();
+
         console.log(`Cur Pulse: ${curPulseRate}`);
 
         Patient.findOne((query),(function(err,result){
@@ -124,21 +126,14 @@ router.get('/all', function(req,res) {
 
 //Find patient by id
 router.get('/:patientId', function (req, res){
-    // console.log("route working");
     Patient.findOne({patientId: req.params.patientId}, function(err, patient) {
         if (err) throw err;
         res.json(patient);
-        //patient.bloodPressure.equals
     });
 });
 
+//find all instances of a patient
 router.get('/:patientId/all', function (req, res){
-    // console.log("route working");
-    // Patient.findOne({patientId: req.params.patientId}, function(err, patient) {
-    //     if (err) throw err;
-    //     res.json(patient);
-    //     //patient.bloodPressure.equals
-    // });
     Patient.find({patientId:req.params.patientId}, function (err, docs){
         res.json(docs);
     });
