@@ -86,11 +86,9 @@
         </table>
     </div>
 
-    <div class="container">
-        <canvas id="tempChart"></canvas>
-    </div>
-
-    <div id="chartContainer" style="height: 300px; width:100%"></div>
+    <div id="chartContainerBP" style="height: 300px"></div>
+    <div id="chartContainerTMP" style="height: 300px"></div>
+    <div id="chartContainerHRM" style="height: 300px; width:100%"></div>
 
 </div>
 
@@ -146,33 +144,160 @@ $(document).ready(function(){
             </tbody>\
             `)
         });
-        // document.getElementById("singlePatient").value=" ";
 });
 </script>
 
 <script>
     document.getElementById("search").addEventListener("click", function(e){
         e.preventDefault();
-        var dataPoints = [];
-        var chart = new CanvasJS.Chart("chartContainer",{
+        var dataPointsBP = [];
+        var chart = new CanvasJS.Chart("chartContainerBP",{
             title:{
                 text:"Patient Blood Pressure Chart"
             },
+            axisY:{
+                minimum: 0,
+                maximum: 200,
+                stripLines:[{
+                    value:150
+                }]
+            },
+            axisX:{
+                minimum: 0,
+                maximum: 1000
+            },
             data:[{
                 type: "line",
-                dataPoints : dataPoints,
+                dataPoints : dataPointsBP,
             }]
         });
         var patientId = $("#singlePatient").val();
         $.getJSON(`http://localhost:3000/patient/${patientId}/all`, function(data){
             $.each(data, function(key, value){
-                console.log(value.name)
-                dataPoints.push({x:0, y:value.bloodPressureHigh});
+                console.log(value.bloodPressureCur)
+                dataPointsBP.push({x:value.date, y: parseInt(value.bloodPressureCur)});
+                // chart.options.stripLines.value= value.bloodPressureHigh
             });
             chart.render();
+            updateChart();
         });
-});
 
+        function updateChart() {
+            $.getJSON("http://localhost:3000/patient/${patientId}/all", function(data) {
+                $.each(data, function(key, value) {
+                    dataPointsBP.push({
+                        x: value.date,
+                        y: parseInt(value.bloodPressureCur)
+                    });
+                });
+                chart.render();
+                setTimeout(function(){updateChart()}, 1000);
+            });
+        }
+        // document.getElementById("singlePatient").value=" ";
+});
+</script>
+    
+<script>
+    document.getElementById("search").addEventListener("click", function(e){
+        e.preventDefault();
+
+        var dataPointsTMP = [];
+        var chart = new CanvasJS.Chart("chartContainerTMP",{
+            title:{
+                text:"Patient Temperature Chart"
+            },
+            axisY:{
+                minimum: 0,
+                maximum: 200,
+                stripLines:[{
+                    // value: thresholds
+                }]
+            },
+            axisX:{
+                minimum: 0,
+                maximum: 1000
+            },
+            data:[{
+                type: "line",
+                dataPoints : dataPointsTMP,
+            }]
+        });
+        var patientId = $("#singlePatient").val();
+        $.getJSON(`http://localhost:3000/patient/${patientId}/all`, function(data){
+            $.each(data, function(key, value){
+                console.log(value.temperatureCur)
+                dataPointsTMP.push({x:value.date, y: parseInt(value.temperatureCur)});
+                // chart.options.stripLines.value= value.bloodPressureHigh
+            });
+            chart.render();
+            updateChart();
+        });
+
+        function updateChart() {
+            $.getJSON("http://localhost:3000/patient/${patientId}/all", function(data) {
+                $.each(data, function(key, value) {
+                    dataPointsTMP.push({
+                        x: value.date,
+                        y: parseInt(value.temperatureCur)
+                    });
+                });
+                chart.render();
+                setTimeout(function(){updateChart()}, 1000);
+            });
+        } 
+    });
+</script>
+
+<script>
+    document.getElementById("search").addEventListener("click", function(e){
+        e.preventDefault();
+
+        var dataPointsHRM = [];
+        var chart = new CanvasJS.Chart("chartContainerHRM",{
+            title:{
+                text:"Patient Pulse Rate Chart"
+            },
+            axisY:{
+                minimum: 0,
+                maximum: 200,
+                stripLines:[{
+                    // value:150 thresholds
+                }]
+            },
+            axisX:{
+                minimum: 0,
+                maximum: 1000
+            },
+            data:[{
+                type: "line",
+                dataPoints : dataPointsHRM,
+            }]
+        });
+        var patientId = $("#singlePatient").val();
+        $.getJSON(`http://localhost:3000/patient/${patientId}/all`, function(data){
+            $.each(data, function(key, value){
+                console.log(value.pulseRateCur)
+                dataPointsHRM.push({x:value.date, y: parseInt(value.pulseRateCur)});
+                // chart.options.stripLines.value= value.bloodPressureHigh
+            });
+            chart.render();
+            updateChart();
+        });
+
+        function updateChart() {
+            $.getJSON("http://localhost:3000/patient/${patientId}/all", function(data) {
+                $.each(data, function(key, value) {
+                    dataPointsHRM.push({
+                        x: value.date,
+                        y: parseInt(value.pulseRateCur)
+                    });
+                });
+                chart.render();
+                setTimeout(function(){updateChart()}, 1000);
+            });
+        }
+    });
 </script>
 
 </body>
