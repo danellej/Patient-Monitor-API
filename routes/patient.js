@@ -74,7 +74,7 @@ router.post('/parse', function (req, res){
                 from : 'patientmonitor2020@gmail.com',
                 to: 'patientmonitor2020@gmail.com',//`${result.nurseEmail}`,
                 subject: 'Patient Update',
-                text: 'Check on patient (indicate current param and set param)'
+                text: `Patient ${result.name} with ID number ${result.patientId} has:` + msg
             };
 
             transporter.sendMail(mailOptions, function(err, info){
@@ -85,9 +85,11 @@ router.post('/parse', function (req, res){
                     console.log('Email sent: ' + info.response);
                 }
             });
+            var msg = ""
 
             if (/*(curPulseRate > result.puslseRateHigh) ||*/ (curPulseRate < result.pulseRateLow)){
                 console.log("Advise nurse about heart rate");
+                msg += ` Current heart rate of ${curPulseRate} and limits of ${result.pulseRateLow}-${result.puslseRateHigh} bpm`
                 result.alerts++;
             }
             else {
@@ -95,6 +97,7 @@ router.post('/parse', function (req, res){
             }
             if ((curBloodPress > result.bloodPressureHigh) || (curBloodPress < result.bloodPressureLow)){
                 console.log("Advise nurse about blood pressure");
+                msg += ` Current blood pressure of ${curBloodPress} and limits of ${result.bloodPressureLow}-${result.bloodPressureHigh} mmHg`
                 result.alerts++;
             }
             else {
@@ -102,6 +105,7 @@ router.post('/parse', function (req, res){
             }
             if ((curTemp > result.temperatureHigh) || (result < patient.temperatureLow)){
                 console.log("Advise nurse about temperature");
+                msg += ` Current temperature of ${curTemp} and limits of ${result.temperatureLow}-${result.temperatureHigh} C`
                 result.alerts++;
             }
             else {

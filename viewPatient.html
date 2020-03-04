@@ -4,7 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">           
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">   
+    <link rel="stylesheet" href="singlePatient.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/canvasjs/1.7.0/canvasjs.min.js"></script>
@@ -86,9 +87,26 @@
         </table>
     </div>
 
-    <div id="chartContainerBP" style="height: 300px"></div>
-    <div id="chartContainerTMP" style="height: 300px"></div>
-    <div id="chartContainerHRM" style="height: 300px; width:100%"></div>
+    <div class="chart1" id="chartContainerBP" style="height: 300px;"></div>
+    <div>
+        <table id="bpTable" class="table table-bordered" style="display: inline-block;">
+            <caption id="bpTableCaption"></caption>
+        </table>
+    </div>
+
+    <div class="chart2" id="chartContainerTMP" style="height: 300px;"></div>
+    <div>
+        <table id="tmpTable" class="table table-bordered" style="display: inline-block;">
+            <caption id="tmpTableCaption"></caption>
+        </table>
+    </div>
+
+    <div class="chart3" id="chartContainerHRM" style="height: 300px;"></div>
+    <div>
+        <table id="pulseTable" class="table table-bordered" style="display: inline-block;">
+            <caption id="pulseTableCaption"></caption>
+        </table>
+    </div>
 
 </div>
 
@@ -143,6 +161,57 @@ $(document).ready(function(){
             </tr>\
             </tbody>\
             `)
+
+            $("#bpTable").append(`\
+            <thead>/
+            <tr>\
+                <th>Blood Pressure(mmHg)</th>\
+                <th>Date</th>\
+                <th>Alert</th>\
+            </tr>\
+            </thead>\
+            <tbody>\
+            <tr>\
+                <td>${patientObject.bloodPressureCur}</td>\
+                <td>${patientObject.date}</td>\
+                <td>${patientObject.alerts}</td>\
+            </tr>\
+            </tbody>\
+            `)
+
+            $("#tmpTable").append(`\
+            <thead>/
+            <tr>\
+                <th>Temperature(C)</th>\
+                <th>Date</th>\
+                <th>Alert</th>\
+            </tr>\
+            </thead>\
+            <tbody>\
+            <tr>\
+                <td>${patientObject.temperatureCur}</td>\
+                <td>${patientObject.date}</td>\
+                <td>${patientObject.alerts}</td>\
+            </tr>\
+            </tbody>\
+            `)
+
+            $("#pulseTable").append(`\
+            <thead>/
+            <tr>\
+                <th>Pulse Rate(bpm)</th>\
+                <th>Date</th>\
+                <th>Alert</th>\
+            </tr>\
+            </thead>\
+            <tbody>\
+            <tr>\
+                <td>${patientObject.pulseRateCur}</td>\
+                <td>${patientObject.date}</td>\
+                <td>${patientObject.alerts}</td>\
+            </tr>\
+            </tbody>\
+            `)
         });
 });
 </script>
@@ -183,7 +252,7 @@ $(document).ready(function(){
         });
 
         function updateChart() {
-            $.getJSON("http://localhost:3000/patient/${patientId}/all", function(data) {
+            $.getJSON(`http://localhost:3000/patient/${patientId}/all`, function(data) {
                 $.each(data, function(key, value) {
                     dataPointsBP.push({
                         x: value.date,
@@ -235,7 +304,7 @@ $(document).ready(function(){
         });
 
         function updateChart() {
-            $.getJSON("http://localhost:3000/patient/${patientId}/all", function(data) {
+            $.getJSON(`http://localhost:3000/patient/${patientId}/all`, function(data) {
                 $.each(data, function(key, value) {
                     dataPointsTMP.push({
                         x: value.date,
@@ -286,7 +355,7 @@ $(document).ready(function(){
         });
 
         function updateChart() {
-            $.getJSON("http://localhost:3000/patient/${patientId}/all", function(data) {
+            $.getJSON(`http://localhost:3000/patient/${patientId}/all`, function(data) {
                 $.each(data, function(key, value) {
                     dataPointsHRM.push({
                         x: value.date,
@@ -299,6 +368,71 @@ $(document).ready(function(){
         }
     });
 </script>
+
+<script> /*
+    document.getElementById("search").addEventListener("click", function(e){
+        e.preventDefault();
+    var patientId = $("#singlePatient").val();
+    $.get(`http://localhost:3000/patient/${patientId}/all`, function(patientObject, status){
+    var bpTable = document.getElementById("bpTable");
+            
+            bpTableCaption.innerHTML = "Patient Blood Pressure";
+            tempTableCaption.innerHTML = "Patient Temperature";
+            pulseTableCaption.innerHTML = "Patient Pulse Rate";
+
+            $("#bpTable").append(`\
+            <thead>/
+            <tr>\
+                <th>Blood Pressure(mmHg)</th>\
+                <th>Date</th>\
+                <th>Alert</th>\
+            </tr>\
+            </thead>\
+            <tbody>\
+            <tr>\
+                <td>${patientObject.bloodPressureCur}</td>\
+                <td>${patientObject.date}</td>\
+                <td>${patientObject.alerts}</td>\
+            </tr>\
+            </tbody>\
+            `)
+
+            $("#tmpTable").append(`\
+            <thead>/
+            <tr>\
+                <th>Temperature(C)</th>\
+                <th>Date</th>\
+                <th>Alert</th>\
+            </tr>\
+            </thead>\
+            <tbody>\
+            <tr>\
+                <td>${patientObject.temperatureCur}</td>\
+                <td>${patientObject.date}</td>\
+                <td>${patientObject.alerts}</td>\
+            </tr>\
+            </tbody>\
+            `)
+
+            $("#pulseTable").append(`\
+            <thead>/
+            <tr>\
+                <th>Pulse Rate(bpm)</th>\
+                <th>Date</th>\
+                <th>Alert</th>\
+            </tr>\
+            </thead>\
+            <tbody>\
+            <tr>\
+                <td>${patientObject.pulseRateCur}</td>\
+                <td>${patientObject.date}</td>\
+                <td>${patientObject.alerts}</td>\
+            </tr>\
+            </tbody>\
+            `)
+        });
+    }); */
+</script> 
 
 </body>
 </html>
