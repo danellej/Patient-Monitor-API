@@ -89,21 +89,21 @@
 
     <div class="chart1" id="chartContainerBP" style="height: 300px;"></div>
     <div>
-        <table id="bpTable" class="table table-bordered" style="display: inline-block;">
+        <table id="bpTable" class="table table-bordered" style="display: inline-block; height: 300px; width: 300px;">
             <caption id="bpTableCaption"></caption>
         </table>
     </div>
 
     <div class="chart2" id="chartContainerTMP" style="height: 300px;"></div>
     <div>
-        <table id="tmpTable" class="table table-bordered" style="display: inline-block;">
+        <table id="tmpTable" class="table table-bordered" style="display: inline-block; height: 300px; width: 300px;">
             <caption id="tmpTableCaption"></caption>
         </table>
     </div>
 
     <div class="chart3" id="chartContainerHRM" style="height: 300px;"></div>
     <div>
-        <table id="pulseTable" class="table table-bordered" style="display: inline-block;">
+        <table id="pulseTable" class="table table-bordered" style="display: inline-block; height: 300px; width: 300px;">
             <caption id="pulseTableCaption"></caption>
         </table>
     </div>
@@ -248,21 +248,21 @@ $(document).ready(function(){
                 // chart.options.stripLines.value= value.bloodPressureHigh
             });
             chart.render();
-            updateChart();
+            // updateChart();
         });
 
-        function updateChart() {
-            $.getJSON(`http://localhost:3000/patient/${patientId}/all`, function(data) {
-                $.each(data, function(key, value) {
-                    dataPointsBP.push({
-                        x: value.date,
-                        y: parseInt(value.bloodPressureCur)
-                    });
-                });
-                chart.render();
-                setTimeout(function(){updateChart()}, 1000);
-            });
-        }
+        // function updateChart() {
+        //     $.getJSON(`http://localhost:3000/patient/${patientId}/all`, function(data) {
+        //         $.each(data, function(key, value) {
+        //             dataPointsBP.push({
+        //                 x: value.date,
+        //                 y: parseInt(value.bloodPressureCur)
+        //             });
+        //         });
+        //         chart.render();
+        //         setTimeout(function(){updateChart()}, 1000);
+        //     });
+        // }
         // document.getElementById("singlePatient").value=" ";
 });
 </script>
@@ -300,21 +300,21 @@ $(document).ready(function(){
                 // chart.options.stripLines.value= value.bloodPressureHigh
             });
             chart.render();
-            updateChart();
+            // updateChart();
         });
 
-        function updateChart() {
-            $.getJSON(`http://localhost:3000/patient/${patientId}/all`, function(data) {
-                $.each(data, function(key, value) {
-                    dataPointsTMP.push({
-                        x: value.date,
-                        y: parseInt(value.temperatureCur)
-                    });
-                });
-                chart.render();
-                setTimeout(function(){updateChart()}, 1000);
-            });
-        } 
+        // function updateChart() {
+        //     $.getJSON(`http://localhost:3000/patient/${patientId}/all`, function(data) {
+        //         $.each(data, function(key, value) {
+        //             dataPointsTMP.push({
+        //                 x: value.date,
+        //                 y: parseInt(value.temperatureCur)
+        //             });
+        //         });
+        //         chart.render();
+        //         setTimeout(function(){updateChart()}, 1000);
+        //     });
+        // } 
     });
 </script>
 
@@ -351,21 +351,21 @@ $(document).ready(function(){
                 // chart.options.stripLines.value= value.bloodPressureHigh
             });
             chart.render();
-            updateChart();
+            // updateChart();
         });
 
-        function updateChart() {
-            $.getJSON(`http://localhost:3000/patient/${patientId}/all`, function(data) {
-                $.each(data, function(key, value) {
-                    dataPointsHRM.push({
-                        x: value.date,
-                        y: parseInt(value.pulseRateCur)
-                    });
-                });
-                chart.render();
-                setTimeout(function(){updateChart()}, 1000);
-            });
-        }
+        // function updateChart() {
+        //     $.getJSON(`http://localhost:3000/patient/${patientId}/all`, function(data) {
+        //         $.each(data, function(key, value) {
+        //             dataPointsHRM.push({
+        //                 x: value.date,
+        //                 y: parseInt(value.pulseRateCur)
+        //             });
+        //         });
+        //         chart.render();
+        //         setTimeout(function(){updateChart()}, 1000);
+        //     });
+        // }
     });
 </script>
 
