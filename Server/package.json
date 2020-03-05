@@ -1,0 +1,30 @@
+{
+  "name": "patient",
+  "version": "1.0.0",
+  "description": "This is the patient monitor api",
+  "main": "app.js",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.7.8",
+    "nodemailer": "^6.4.2",
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0",
+    "uuid": "^3.3.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danellej/Patient-Monitor-API.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danellej/Patient-Monitor-API/issues"
+  },
+  "homepage": "https://github.com/danellej/Patient-Monitor-API#readme"
+}
