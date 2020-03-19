@@ -46,7 +46,8 @@ router.post('/parse', function (req, res){
         temperatureCur : patientData[1], //pulseratecur
         positionCur: patientData[2], //bloodpressurecur
         pulseRateCur : patientData[3],
-        bloodPressureCur : patientData[4]
+        bloodPressureCur : patientData[4],
+        date = new Date()
     });
     newPatient.save()
     .then ( (patient) => {
@@ -58,7 +59,7 @@ router.post('/parse', function (req, res){
         var curBloodPress = parseInt(patient.bloodPressureCur);
         var curTemp = parseInt(patient.temperatureCur);
 
-        var date = new Date();
+        // var date = new Date();
 
         console.log(`Cur Pulse: ${curPulseRate}`);
 
@@ -86,7 +87,7 @@ router.post('/parse', function (req, res){
             });
             var msg = ""
 
-            if (/*(curPulseRate > result.puslseRateHigh) ||*/ (curPulseRate < result.pulseRateLow)){
+            if ((curPulseRate > result.puslseRateHigh) || (curPulseRate < result.pulseRateLow)){
                 console.log("Advise nurse about heart rate");
                 msg += ` Current heart rate of ${curPulseRate} and limits of ${result.pulseRateLow}-${result.puslseRateHigh} bpm`
                 result.alerts++;
