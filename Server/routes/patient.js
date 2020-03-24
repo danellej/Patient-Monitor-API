@@ -47,7 +47,7 @@ router.post('/parse', function (req, res){
         positionCur: patientData[2], //bloodpressurecur
         pulseRateCur : patientData[3],
         bloodPressureCur : patientData[4],
-        date = new Date()
+        date : new Date()
     });
     newPatient.save()
     .then ( (patient) => {
@@ -129,7 +129,7 @@ router.get('/all', function(req,res) {
 });
 
 //Find patient by id
-router.get('/:patientId', function (req, res){
+router.get('/patientId/:patientId', function (req, res){
     Patient.findOne({patientId: req.params.patientId}, function(err, patient) {
         if (err) throw err;
         res.json(patient);
@@ -137,9 +137,17 @@ router.get('/:patientId', function (req, res){
 });
 
 //find all instances of a patient
-router.get('/:patientId/all', function (req, res){
+router.get('/all/:patientId', function (req, res){
     Patient.find({patientId:req.params.patientId}, function (err, docs){
-        res.json(docs);
+        res.json(docs)
+    });
+});
+
+//find patient by date
+router.get('/date/:patientId/:date', function (req, res){
+    console.log("Get date")
+    Patient.find({patientId: req.params.patientId, date: req.params.date}, function (err, docs){
+        res.json(docs)
     });
 });
 
