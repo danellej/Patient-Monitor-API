@@ -70,21 +70,6 @@ router.post('/parse', function (req, res){
             console.log(`Low Pulse: ${result.pulseRateLow}`);
             console.log(`High Pulse: ${result.pulseRateHigh}`);
 
-            var mailOptions = {
-                from : 'patientmonitor2020@gmail.com',
-                to: 'patientmonitor2020@gmail.com',//`${result.nurseEmail}`,
-                subject: 'Patient Update',
-                text: `Patient ${result.name} with ID number ${result.patientId} has:` + msg
-            };
-
-            transporter.sendMail(mailOptions, function(err, info){
-                if (err){
-                    console.log(err);
-                }
-                else{
-                    console.log('Email sent: ' + info.response);
-                }
-            });
             var msg = ""
 
             if ((curPulseRate > result.puslseRateHigh) || (curPulseRate < result.pulseRateLow)){
@@ -111,6 +96,23 @@ router.post('/parse', function (req, res){
             else {
                 console.log("Temperature safe");
             }
+
+            var mailOptions = {
+                from : 'patientmonitor2020@gmail.com',
+                to: 'patientmonitor2020@gmail.com',//`${result.nurseEmail}`,
+                subject: 'Patient Update',
+                text: `Patient ${result.name} with ID number ${result.patientId} has:` + msg
+            };
+
+            transporter.sendMail(mailOptions, function(err, info){
+                if (err){
+                    console.log(err);
+                }
+                else{
+                    console.log('Email sent: ' + info.response);
+                }
+            });
+
     }));
     })
     .catch ( (err) => { res.sendStatus(400);console.log(err);} );  
