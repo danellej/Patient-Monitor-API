@@ -63,9 +63,9 @@
 </nav>
 
 <div class="container" style="text-align: center">
-    <h4>View Patient by ID Number</h4>
-    <form class="form-horizontal" id="delete-form">
-        <div class="input-group">
+    <!-- <h4>View Patient by ID Number</h4> -->
+    <form class="form-horizontal" id="view-form">
+        <div class="input-group" style="width: 300px;">
             <input type="text" autocomplete="off" id="singlePatient" class="form-control" placeholder="Enter patient ID number">
             <div class="input-group-btn">
                 <button class="btn btn-default" type="submit" id="search">
@@ -75,11 +75,35 @@
         </div>
     </form>
 
+    <div class="container-fluid bg-3 text-center" style="padding-top: 30px;">    
+        <div class="row">
+            <div class="col-xs-2">
+                <p id="patientInfo" style="margin-left: 4.16666667%;"></p>
+              </div>
+          <div class="col-xs-2">
+            <p id="nameHolder"></p>
+            <p id="patientName" style="margin-left: 4.16666667%;"></p>
+          </div>
+          <div class="col-xs-2"> 
+            <p id="ageHolder"></p>
+            <p id="patientAge" style="margin-left: 4.16666667%;"></p>
+          </div>
+          <div class="col-xs-2"> 
+            <p id="emailHolder"></p>
+            <p id="patientNurse" style="margin-left: 4.16666667%;"></p>
+          </div>
+          <div class="col-xs-2"> 
+            <p id="posHolder"></p>
+            <p id="patientPos" style="margin-left: 4.16666667%;"></p>
+          </div>
+        </div>
+      </div>  
+<!-- 
     <div style = text-align:left>
         <p id="patientInfo"></p>
         <p id="patientName"></p>
         <p id="patientAge"></p>
-    </div>
+    </div> -->
 
     <div>
         <table id="patientTable" class="table table-bordered">
@@ -87,26 +111,56 @@
         </table>
     </div>
 
-    <div class="chart1" id="chartContainerBP" style="height: 300px;"></div>
-    <div>
-        <table id="bpTable" class="table table-bordered" style="display: inline-block; height: 300px; width: 300px;">
-            <caption id="bpTableCaption"></caption>
-        </table>
-    </div>
+    <div class="container-fluid bg-3 text-center" style="padding-bottom: 48px;">    
+        <div class="row">
+          <div class="col-sm-4" id="chartContainerTMP" style="height:300px;">
+              <!-- <p>Temperature graph here</p> -->
+          </div>
+          <div class="col-sm-4">
+              <!-- <p>Temperature table here</p> -->
+              <table id="tmpTable" class="table-bordered" style="width: 300px; max-height: 300px; overflow: auto; display: block;">
+                <caption id="tmpTableCaption"></caption>
+              </table>
+          </div>
+          <div class="col-sm-4"> 
+            <p>Choose Date Range here</p>
+          </div>
+        </div>
+      </div>  
+      
+      <div class="container-fluid bg-3 text-center" style="padding-bottom: 48px;">    
+        <div class="row">
+          <div class="col-sm-4" id="chartContainerBP" style="height:300px;">
+              <!-- <p>Blood Pressure graph here</p> -->
+          </div>
+          <div class="col-sm-4">
+              <!-- <p>Temperature table here</p> -->
+              <table id="bpTable" class="table-bordered" style="width: 300px; max-height: 300px; overflow: auto; display: block;">
+                <caption id="bpTableCaption"></caption>
+              </table>
+          </div>
+          <div class="col-sm-4"> 
+            <p>Choose Date Range here</p>
+          </div>
+        </div>
+      </div>
 
-    <div class="chart2" id="chartContainerTMP" style="height: 300px;"></div>
-    <div>
-        <table id="tmpTable" class="table table-bordered" style="display: inline-block; height: 300px; width: 300px;">
-            <caption id="tmpTableCaption"></caption>
-        </table>
-    </div>
-
-    <div class="chart3" id="chartContainerHRM" style="height: 300px;"></div>
-    <div>
-        <table id="pulseTable" class="table table-bordered" style="display: inline-block; height: 300px; width: 300px;">
-            <caption id="pulseTableCaption"></caption>
-        </table>
-    </div>
+      <div class="container-fluid bg-3 text-center" style="padding-bottom: 48px;">    
+        <div class="row">
+          <div class="col-sm-4" id="chartContainerHRM" style="height:300px">
+              <!-- <p>Pulse Rate graph here</p> -->
+          </div>
+          <div class="col-sm-4">
+              <!-- <p>Temperature table here</p> -->
+              <table id="pulseTable" class="table-bordered" style="width: 300px; max-height: 300px; overflow: auto; display: block;">
+                <caption id="pulseTableCaption"></caption>
+              </table>
+          </div>
+          <div class="col-sm-4"> 
+            <p>Choose Date Range here</p>
+          </div>
+        </div>
+      </div>
 
 </div>
 
@@ -125,18 +179,35 @@ $(document).ready(function(){
     document.getElementById("search").addEventListener("click", function(e){
         e.preventDefault();
         var patientId = $("#singlePatient").val();
-        $.get("http://localhost:3000/patient/"+patientId, function(patientObject, status){
+        $.get("http://localhost:3000/patient/patientId/"+patientId, function(patientObject, status){
             var patientName = document.getElementById("patientName");
             var patientAge = document.getElementById("patientAge");
+            var patientNurse = document.getElementById("patientNurse");
+            var posHolder = document.getElementById("posHolder");
+            var emailHolder = document.getElementById("emailHolder");
+            var ageHolder = document.getElementById("ageHolder");
+            var nameHolder = document.getElementById("nameHolder");
+            posHolder.style.fontWeight = 'bold'; posHolder.style.fontSize = '16px'
+            emailHolder.style.fontWeight = 'bold'; emailHolder.style.fontSize = '16px'
+            ageHolder.style.fontWeight = 'bold'; ageHolder.style.fontSize = '16px'
+            nameHolder.style.fontWeight = 'bold'; nameHolder.style.fontSize = '16px'
             var patientInfo = document.getElementById("patientInfo");
             patientInfo.style.fontWeight = 'bold'; patientInfo.style.fontSize = '25px'
-            patientName.style.fontWeight = 'bold'; patientName.style.fontSize = '16px'
-            patientAge.style.fontWeight = 'bold'; patientAge.style.fontSize = '16px'
-            patientName.value = " ";
-            patientAge.value = " ";
-            patientInfo.innerHTML = "Patient Information ";
-            patientName.innerHTML = "Name: " + patientObject.name;
-            patientAge.innerHTML = "Age: " + patientObject.age;
+            patientName.style.fontSize = '16px'
+            patientAge.style.fontSize = '16px'
+            // patientName.value = " ";
+            // patientAge.value = " ";
+            patientInfo.innerHTML = "Patient Information";
+            // patientName.innerHTML = "Name: " + patientObject.name;
+            // patientAge.innerHTML = "Age: " + patientObject.age;
+
+            patientName.innerHTML = patientObject.name;
+            patientAge.innerHTML = patientObject.age;
+            patientNurse.innerHTML = patientObject.nurseEmail;
+            nameHolder.innerHTML = "Patient Name";
+            ageHolder.innerHTML = "Age";
+            emailHolder.innerHTML = "Attending Nurse";
+            posHolder.innerHTML = "Current Position";
 
             var patientTable = document.getElementById("patientTable");
             
@@ -161,6 +232,29 @@ $(document).ready(function(){
             </tr>\
             </tbody>\
             `)
+        });
+
+        $.get("http://localhost:3000/patient/all/"+patientId, function(data, status){
+            var patientData = data;
+ 
+            patientData.map((patient)=>{
+                if (patient.date != null){
+             $("#tmpTable").append(`\
+            <thead>/
+            <tr>\
+                <th>Temperature(C)</th>\
+                <th>Date</th>\
+                <th>Alert</th>\
+            </tr>\
+            </thead>\
+            <tbody>\
+            <tr>\
+                <td>${patient.temperatureCur}</td>\
+                <td>${patient.date}</td>\
+                <td>${patient.alerts}</td>\
+            </tr>\
+            </tbody>\
+            `)
 
             $("#bpTable").append(`\
             <thead>/
@@ -172,26 +266,9 @@ $(document).ready(function(){
             </thead>\
             <tbody>\
             <tr>\
-                <td>${patientObject.bloodPressureCur}</td>\
-                <td>${patientObject.date}</td>\
-                <td>${patientObject.alerts}</td>\
-            </tr>\
-            </tbody>\
-            `)
-
-            $("#tmpTable").append(`\
-            <thead>/
-            <tr>\
-                <th>Temperature(C)</th>\
-                <th>Date</th>\
-                <th>Alert</th>\
-            </tr>\
-            </thead>\
-            <tbody>\
-            <tr>\
-                <td>${patientObject.temperatureCur}</td>\
-                <td>${patientObject.date}</td>\
-                <td>${patientObject.alerts}</td>\
+                <td>${patient.bloodPressureCur}</td>\
+                <td>${patient.date}</td>\
+                <td>${patient.alerts}</td>\
             </tr>\
             </tbody>\
             `)
@@ -206,12 +283,15 @@ $(document).ready(function(){
             </thead>\
             <tbody>\
             <tr>\
-                <td>${patientObject.pulseRateCur}</td>\
-                <td>${patientObject.date}</td>\
-                <td>${patientObject.alerts}</td>\
+                <td>${patient.pulseRateCur}</td>\
+                <td>${patient.date}</td>\
+                <td>${patient.alerts}</td>\
             </tr>\
             </tbody>\
             `)
+
+        }})
+            
         });
 });
 </script>
@@ -225,15 +305,12 @@ $(document).ready(function(){
                 text:"Patient Blood Pressure Chart"
             },
             axisY:{
-                minimum: 0,
-                maximum: 200,
+                title: "Blood Pressure",
                 stripLines:[{
-                    value:150
                 }]
             },
             axisX:{
-                minimum: 0,
-                maximum: 1000
+                title: "Date"
             },
             data:[{
                 type: "line",
@@ -241,10 +318,10 @@ $(document).ready(function(){
             }]
         });
         var patientId = $("#singlePatient").val();
-        $.getJSON(`http://localhost:3000/patient/${patientId}/all`, function(data){
+        $.getJSON(`http://localhost:3000/patient/all/${patientId}`, function(data, status){
             $.each(data, function(key, value){
                 console.log(value.bloodPressureCur)
-                dataPointsBP.push({x:value.date, y: parseInt(value.bloodPressureCur)});
+                dataPointsBP.push({x: new Date(value.date), y: parseInt(value.bloodPressureCur)});
                 // chart.options.stripLines.value= value.bloodPressureHigh
             });
             chart.render();
@@ -252,7 +329,7 @@ $(document).ready(function(){
         });
 
         // function updateChart() {
-        //     $.getJSON(`http://localhost:3000/patient/${patientId}/all`, function(data) {
+        //     $.getJSON(`http://localhost:3000/patient/all/${patientId}`, function(data) {
         //         $.each(data, function(key, value) {
         //             dataPointsBP.push({
         //                 x: value.date,
@@ -264,10 +341,10 @@ $(document).ready(function(){
         //     });
         // }
         // document.getElementById("singlePatient").value=" ";
-});
+}); 
 </script>
     
-<script>
+<script> 
     document.getElementById("search").addEventListener("click", function(e){
         e.preventDefault();
 
@@ -277,15 +354,13 @@ $(document).ready(function(){
                 text:"Patient Temperature Chart"
             },
             axisY:{
-                minimum: 0,
-                maximum: 200,
+                title: "Temperature",
                 stripLines:[{
                     // value: thresholds
                 }]
             },
             axisX:{
-                minimum: 0,
-                maximum: 1000
+                title: "Date"
             },
             data:[{
                 type: "line",
@@ -293,18 +368,19 @@ $(document).ready(function(){
             }]
         });
         var patientId = $("#singlePatient").val();
-        $.getJSON(`http://localhost:3000/patient/${patientId}/all`, function(data){
+        $.getJSON(`http://localhost:3000/patient/all/${patientId}`, function(data, status){
             $.each(data, function(key, value){
+                if (value.date != null){
                 console.log(value.temperatureCur)
-                dataPointsTMP.push({x:value.date, y: parseInt(value.temperatureCur)});
+                dataPointsTMP.push({x: new Date(value.date), y: parseInt(value.temperatureCur)});
                 // chart.options.stripLines.value= value.bloodPressureHigh
-            });
+            }});
             chart.render();
             // updateChart();
         });
 
         // function updateChart() {
-        //     $.getJSON(`http://localhost:3000/patient/${patientId}/all`, function(data) {
+        //     $.getJSON(`http://localhost:3000/patient/all/${patientId}/`, function(data) {
         //         $.each(data, function(key, value) {
         //             dataPointsTMP.push({
         //                 x: value.date,
@@ -318,7 +394,7 @@ $(document).ready(function(){
     });
 </script>
 
-<script>
+<script> 
     document.getElementById("search").addEventListener("click", function(e){
         e.preventDefault();
 
@@ -328,15 +404,13 @@ $(document).ready(function(){
                 text:"Patient Pulse Rate Chart"
             },
             axisY:{
-                minimum: 0,
-                maximum: 200,
+                title: "Beats per Minute",
                 stripLines:[{
                     // value:150 thresholds
                 }]
             },
             axisX:{
-                minimum: 0,
-                maximum: 1000
+                title: "Date"
             },
             data:[{
                 type: "line",
@@ -344,10 +418,10 @@ $(document).ready(function(){
             }]
         });
         var patientId = $("#singlePatient").val();
-        $.getJSON(`http://localhost:3000/patient/${patientId}/all`, function(data){
+        $.getJSON(`http://localhost:3000/patient/all/${patientId}`, function(data, status){
             $.each(data, function(key, value){
                 console.log(value.pulseRateCur)
-                dataPointsHRM.push({x:value.date, y: parseInt(value.pulseRateCur)});
+                dataPointsHRM.push({x: new Date(value.date), y: parseInt(value.pulseRateCur)});
                 // chart.options.stripLines.value= value.bloodPressureHigh
             });
             chart.render();
@@ -355,7 +429,7 @@ $(document).ready(function(){
         });
 
         // function updateChart() {
-        //     $.getJSON(`http://localhost:3000/patient/${patientId}/all`, function(data) {
+        //     $.getJSON(`http://localhost:3000/patient/all/${patientId}`, function(data) {
         //         $.each(data, function(key, value) {
         //             dataPointsHRM.push({
         //                 x: value.date,
@@ -366,14 +440,14 @@ $(document).ready(function(){
         //         setTimeout(function(){updateChart()}, 1000);
         //     });
         // }
-    });
+    }); 
 </script>
 
 <script> /*
     document.getElementById("search").addEventListener("click", function(e){
         e.preventDefault();
     var patientId = $("#singlePatient").val();
-    $.get(`http://localhost:3000/patient/${patientId}/all`, function(patientObject, status){
+    $.get(`http://localhost:3000/patient/all/${patientId}`, function(patientObject, status){
     var bpTable = document.getElementById("bpTable");
             
             bpTableCaption.innerHTML = "Patient Blood Pressure";

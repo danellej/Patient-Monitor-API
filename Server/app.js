@@ -11,9 +11,10 @@ require('dotenv').config();
 app.use(express.json());
 app.use(cors());
 
+console.log(process.env.PATIENT_MONITOR_MONGO);
+
 const mongoose = require('mongoose');
-mongoose.connect(process.env.PATIENT_MONITOR_MONGO, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, 
-useFindAndModify:false });
+mongoose.connect(process.env.PATIENT_MONITOR_MONGO, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify:false });
 const db = mongoose.connection;
 
 var port = process.env.PATIENT_MONITOR_PORT || 5500;

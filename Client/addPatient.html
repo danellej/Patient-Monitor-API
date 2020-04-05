@@ -96,8 +96,10 @@
                         <input type="text" class="form-control:" id="highTemp">
                     </div>
                 </form>
+            <label for="nurseEmail">Nurse Email:</label>
+            <input type="text" class="form-control" id="age" placeholder="Enter email address for attending doctor/nurse">
                 <div>
-                    <button type="submit" id="addPatient" class="btn btn-default btn-block">Create Patient</button>
+                    <button type="submit" id="addPatient" class="btn btn-default btn-block" style="position:relative; top: 20px;">Create Patient</button>
                 </div>
         </div>
     </form>
@@ -120,11 +122,12 @@ $(document).ready(function(){
         var age = $("#age").val();
         var patientId = $("#patientId").val();
         var pulseRateLow = $("#lowPulse").val();
-        var puslseRateHigh = $("#highPulse").val();
+        var pulseRateHigh = $("#highPulse").val();
         var bloodPressureLow = $("#lowBP").val();
         var bloodPressureHigh = $("#highBP").val();
         var temperatureLow = $("#lowTemp").val();
         var temperatureHigh = $("#highTemp").val();
+        var nurseEmail = $("#nurseEmail").val();
 
         $.ajax("http://localhost:3000/patient/",{
             contentType: 'application/json',
@@ -133,11 +136,12 @@ $(document).ready(function(){
                 "age":age,
                 "patientId":patientId,
                 "pulseRateLow":pulseRateLow,
-                "puslseRateHigh":puslseRateHigh,
+                "pulseRateHigh":pulseRateHigh,
                 "bloodPressureLow":bloodPressureLow,
                 "bloodPressureHigh":bloodPressureHigh,
                 "temperatureLow":temperatureLow,
-                "temperatureHigh":temperatureHigh
+                "temperatureHigh":temperatureHigh,
+                "nurseEmail":nurseEmail
             }),
             type: 'POST'
         });

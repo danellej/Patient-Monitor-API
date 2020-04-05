@@ -20,7 +20,7 @@ const patientSchema = mongoose.Schema({
     temperatureLow: {
         type:Number
     },
-    pulseRateHigh: { //doesn't add
+    pulseRateHigh: { 
         type: Number
     },
     bloodPressureHigh: {

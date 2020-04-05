@@ -35,6 +35,8 @@ router.post('/', function(req,res) {
     .catch ( (err) => { res.sendStatus(400);console.log(err);} );
 });
 
+var msg = "";
+
 router.post('/parse', function (req, res){
     var data = req.body.data
     console.log(data);
@@ -65,17 +67,17 @@ router.post('/parse', function (req, res){
 
         Patient.findOne((query),(function(err,result){
             if (err) throw (err);
-            res.json(result);
+            // res.json(result);
             console.log(result);
             console.log(`Low Pulse: ${result.pulseRateLow}`);
             console.log(`High Pulse: ${result.pulseRateHigh}`);
 
-            var msg = ""
+            // var msg = ""
 
-            if ((curPulseRate > result.puslseRateHigh) || (curPulseRate < result.pulseRateLow)){
+            if ((curPulseRate > result.pulseRateHigh) || (curPulseRate < result.pulseRateLow)){
                 console.log("Advise nurse about heart rate");
-                msg += ` Current heart rate of ${curPulseRate} and limits of ${result.pulseRateLow}-${result.puslseRateHigh} bpm`
-                result.alerts++;
+                msg += ` Current heart rate of ${curPulseRate} and limits of ${result.pulseRateLow}-${result.pulseRateHigh} bpm`
+                result.alerts = result.alerts + 1;
             }
             else {
                 console.log("Heart rate safe");
@@ -83,15 +85,15 @@ router.post('/parse', function (req, res){
             if ((curBloodPress > result.bloodPressureHigh) || (curBloodPress < result.bloodPressureLow)){
                 console.log("Advise nurse about blood pressure");
                 msg += ` Current blood pressure of ${curBloodPress} and limits of ${result.bloodPressureLow}-${result.bloodPressureHigh} mmHg`
-                result.alerts++;
+                result.alerts = result.alerts + 1;
             }
             else {
                 console.log("blood pressure safe");
             }
-            if ((curTemp > result.temperatureHigh) || (result < patient.temperatureLow)){
+            if ((curTemp > result.temperatureHigh) || (curTemp < result.temperatureLow)){
                 console.log("Advise nurse about temperature");
                 msg += ` Current temperature of ${curTemp} and limits of ${result.temperatureLow}-${result.temperatureHigh} C`
-                result.alerts++;
+                result.alerts = result.alerts + 1;
             }
             else {
                 console.log("Temperature safe");
@@ -110,8 +112,12 @@ router.post('/parse', function (req, res){
                 }
                 else{
                     console.log('Email sent: ' + info.response);
+                    // res.send(info.response);
+                    res.json({"msg":"hello"});
                 }
             });
+
+            msg = "";
 
     }));
     })
