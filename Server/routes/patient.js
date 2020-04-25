@@ -28,7 +28,10 @@ router.post('/', function(req,res) {
         bloodPressureLow : req.body.bloodPressureLow,
         bloodPressureHigh : req.body.bloodPressureHigh,
         temperatureLow : req.body.temperatureLow,
-        temperatureHigh : req.body.temperatureHigh
+        temperatureHigh : req.body.temperatureHigh,
+        nurseEmail : req.body.nurseEmail,
+        bloodPressureSys : req.body.bloodPressureSys,
+        bloodPressureDias : req.body.bloodPressureDias
     });
     newPatient.save()
     .then ( (patient) => res.json(patient) )
@@ -36,6 +39,7 @@ router.post('/', function(req,res) {
 });
 
 var msg = "";
+var sys; var dias;
 
 router.post('/parse', function (req, res){
     var data = req.body.data
@@ -43,36 +47,47 @@ router.post('/parse', function (req, res){
 
     var patientData = data.split(',');
 
+    var maxVolt = parseFloat(patientData[4]);
+    var minVolt = parseFloat(patientData[5]);
+    var systolVolt = parseFloat(patientData[6]);
+    var diastolVolt = parseFloat(patientData[7]);
+
+    console.log("voltage type: " + typeof maxVolt);
+    
+
+    Patient.findOne({patientId : patientData[0]},(function(err,result){
+        if (err) throw (err);
+        console.log(result);
+
+    //   sys = ((systolVolt - minVolt)/(maxVolt - minVolt) * (result.bloodPressureSys - result.bloodPressureDias)) + result.bloodPressureDias;
+    //   dias = ((diastolVolt - minVolt)/(maxVolt - minVolt) * (result.bloodPressureSys - result.bloodPressureDias)) + result.bloodPressureDias;
+
+    sys = ((systolVolt - minVolt)/(maxVolt - minVolt) * (120 - 80)) + 80;
+    dias = ((diastolVolt - minVolt)/(maxVolt - minVolt) * (120 - 80)) + 80;
+    }));
+
     var newPatient = new Patient({
         patientId: patientData[0],
         temperatureCur : patientData[1], //pulseratecur
         positionCur: patientData[2], //bloodpressurecur
         pulseRateCur : patientData[3],
-        bloodPressureCur : patientData[4],
+        bloodPressureSys : sys,
+        bloodPressureDias : dias,
         date : new Date()
     });
     newPatient.save()
     .then ( (patient) => {
         console.log(`New Patient: ${patient}`);
         var query = {patientId : patient.patientId};
-        var info = patient.pulseRateCur;
 
         var curPulseRate = parseInt(patient.pulseRateCur);
-        var curBloodPress = parseInt(patient.bloodPressureCur);
+        var curSysPress = parseInt(patient.bloodPressureSys);
+        var curDiasPress = parseInt(patient.bloodPressureDias);
         var curTemp = parseInt(patient.temperatureCur);
-
-        // var date = new Date();
-
-        console.log(`Cur Pulse: ${curPulseRate}`);
 
         Patient.findOne((query),(function(err,result){
             if (err) throw (err);
-            // res.json(result);
             console.log(result);
-            console.log(`Low Pulse: ${result.pulseRateLow}`);
-            console.log(`High Pulse: ${result.pulseRateHigh}`);
-
-            // var msg = ""
 
             if ((curPulseRate > result.pulseRateHigh) || (curPulseRate < result.pulseRateLow)){
                 console.log("Advise nurse about heart rate");
@@ -82,9 +97,17 @@ router.post('/parse', function (req, res){
             else {
                 console.log("Heart rate safe");
             }
-            if ((curBloodPress > result.bloodPressureHigh) || (curBloodPress < result.bloodPressureLow)){
+            if ((curSysPress > result.bpSysHigh) || (curSysPress < result.bpSysLow)){
                 console.log("Advise nurse about blood pressure");
-                msg += ` Current blood pressure of ${curBloodPress} and limits of ${result.bloodPressureLow}-${result.bloodPressureHigh} mmHg`
+                msg += ` Current blood pressure of ${curSysPress} and limits of ${result.bpSysLow}/${result.bpDiasLow}-${result.bpSysHigh}/${result.bpDiasHigh} mmHg`
+                result.alerts = result.alerts + 1;
+            }
+            else {
+                console.log("blood pressure safe");
+            }
+            if ((curDiasPress > result.bpDiasHigh) || (curDiasPress < result.bpDiasLow)){
+                console.log("Advise nurse about blood pressure");
+                msg += ` Current blood pressure of ${curDiasPress} and limits of ${result.bpSysLow}/${result.bpDiasLow}-${result.bpSysHigh}/${result.bpDiasHigh} mmHg`
                 result.alerts = result.alerts + 1;
             }
             else {
@@ -111,9 +134,8 @@ router.post('/parse', function (req, res){
                     console.log(err);
                 }
                 else{
-                    console.log('Email sent: ' + info.response);
-                    // res.send(info.response);
-                    res.json({"msg":"hello"});
+                    console.log('Email sent: ' + typeof info.response);
+                    res.send(info.response);
                 }
             });
 

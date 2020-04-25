@@ -14,7 +14,10 @@ const patientSchema = mongoose.Schema({
     pulseRateLow: {
         type: Number
     },
-    bloodPressureLow: {
+    bpSysLow: {
+        type:Number
+    },
+    bpDiasLow: {
         type:Number
     },
     temperatureLow: {
@@ -23,10 +26,13 @@ const patientSchema = mongoose.Schema({
     pulseRateHigh: { 
         type: Number
     },
-    bloodPressureHigh: {
+    temperatureHigh: {
         type:Number
     },
-    temperatureHigh: {
+    bpDiasHigh: {
+        type:Number
+    },
+    bpSysHigh: {
         type:Number
     },
     nurseEmail: {
@@ -35,7 +41,10 @@ const patientSchema = mongoose.Schema({
     pulseRateCur: {
         type: String
     },
-    bloodPressureCur: {
+    bloodPressureSys: {
+        type: String
+    },
+    bloodPressureDias: {
         type: String
     },
     temperatureCur: {
