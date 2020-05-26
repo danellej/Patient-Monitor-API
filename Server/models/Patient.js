@@ -54,7 +54,7 @@ const patientSchema = mongoose.Schema({
         type: String
     },
     alerts: {
-        type: Number
+        type: Boolean
     },
     date: {
         type: Date

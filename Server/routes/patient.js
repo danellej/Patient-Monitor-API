@@ -25,8 +25,10 @@ router.post('/', function(req,res) {
         age: req.body.age,
         pulseRateLow : req.body.pulseRateLow,
         pulseRateHigh : req.body.pulseRateHigh,
-        bloodPressureLow : req.body.bloodPressureLow,
-        bloodPressureHigh : req.body.bloodPressureHigh,
+        bpSysHigh : req.body.bpSysHigh,
+        bpDiasHigh : req.body.bpDiasHigh,
+        bpSysLow : req.body.bpSysLow,
+        bpDiasLow : req.body.bpDiasLow,
         temperatureLow : req.body.temperatureLow,
         temperatureHigh : req.body.temperatureHigh,
         nurseEmail : req.body.nurseEmail,
@@ -88,11 +90,12 @@ router.post('/parse', function (req, res){
         Patient.findOne((query),(function(err,result){
             if (err) throw (err);
             console.log(result);
+            result.alerts = false;
 
             if ((curPulseRate > result.pulseRateHigh) || (curPulseRate < result.pulseRateLow)){
                 console.log("Advise nurse about heart rate");
                 msg += ` Current heart rate of ${curPulseRate} and limits of ${result.pulseRateLow}-${result.pulseRateHigh} bpm`
-                result.alerts = result.alerts + 1;
+                result.alerts = true;
             }
             else {
                 console.log("Heart rate safe");
@@ -100,7 +103,7 @@ router.post('/parse', function (req, res){
             if ((curSysPress > result.bpSysHigh) || (curSysPress < result.bpSysLow)){
                 console.log("Advise nurse about blood pressure");
                 msg += ` Current blood pressure of ${curSysPress} and limits of ${result.bpSysLow}/${result.bpDiasLow}-${result.bpSysHigh}/${result.bpDiasHigh} mmHg`
-                result.alerts = result.alerts + 1;
+                result.alerts = true;
             }
             else {
                 console.log("blood pressure safe");
@@ -108,7 +111,7 @@ router.post('/parse', function (req, res){
             if ((curDiasPress > result.bpDiasHigh) || (curDiasPress < result.bpDiasLow)){
                 console.log("Advise nurse about blood pressure");
                 msg += ` Current blood pressure of ${curDiasPress} and limits of ${result.bpSysLow}/${result.bpDiasLow}-${result.bpSysHigh}/${result.bpDiasHigh} mmHg`
-                result.alerts = result.alerts + 1;
+                result.alerts = true;
             }
             else {
                 console.log("blood pressure safe");
@@ -116,7 +119,7 @@ router.post('/parse', function (req, res){
             if ((curTemp > result.temperatureHigh) || (curTemp < result.temperatureLow)){
                 console.log("Advise nurse about temperature");
                 msg += ` Current temperature of ${curTemp} and limits of ${result.temperatureLow}-${result.temperatureHigh} C`
-                result.alerts = result.alerts + 1;
+                result.alerts = true;
             }
             else {
                 console.log("Temperature safe");

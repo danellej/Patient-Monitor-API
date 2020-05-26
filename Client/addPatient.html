@@ -78,13 +78,22 @@
                         <input type="text" class="form-control:" id="highPulse">
                     </div>
                 </form>
-            <label for="bloodPressure">Blood Pressure</label>
+            <label for="bloodPressureSys">Systolic Blood Pressure</label>
                 <form class="form-inline">
                     <div class="form-group">
-                        <label for="lowBP">Lower Limit:</label>
-                        <input type="text" class="form-control:" id="lowBP">
-                        <label for="highBP">Upper Limit:</label>
-                        <input type="text" class="form-control:" id="highBP">
+                        <label for="lowSysBP">Lower Limit:</label>
+                        <input type="text" class="form-control:" id="lowSysBP">
+                        <label for="highSysBP">Upper Limit:</label>
+                        <input type="text" class="form-control:" id="highSysBP">
+                    </div>
+                </form>
+                <label for="bloodPressureDias">Diastolic Blood Pressure</label>
+                <form class="form-inline">
+                    <div class="form-group">
+                        <label for="lowDiasBP">Lower Limit:</label>
+                        <input type="text" class="form-control:" id="lowDiasBP">
+                        <label for="highDiasBP">Upper Limit:</label>
+                        <input type="text" class="form-control:" id="highDiasBP">
                     </div>
                 </form>
             <label for="temperature">Temperature:</label>
@@ -96,8 +105,17 @@
                         <input type="text" class="form-control:" id="highTemp">
                     </div>
                 </form>
+                <label for="bloodPressureCur">Current Blood Pressure</label>
+                <form class="form-inline">
+                    <div class="form-group">
+                        <label for="initalSys">Systolic:</label>
+                        <input type="text" class="form-control:" id="initialSys">
+                        <label for="initalDias">Diastolic:</label>
+                        <input type="text" class="form-control:" id="initialDias">
+                    </div>
+                </form>
             <label for="nurseEmail">Nurse Email:</label>
-            <input type="text" class="form-control" id="age" placeholder="Enter email address for attending doctor/nurse">
+            <input type="text" class="form-control" id="nurseEmail" placeholder="Enter email address for attending doctor/nurse">
                 <div>
                     <button type="submit" id="addPatient" class="btn btn-default btn-block" style="position:relative; top: 20px;">Create Patient</button>
                 </div>
@@ -123,11 +141,15 @@ $(document).ready(function(){
         var patientId = $("#patientId").val();
         var pulseRateLow = $("#lowPulse").val();
         var pulseRateHigh = $("#highPulse").val();
-        var bloodPressureLow = $("#lowBP").val();
-        var bloodPressureHigh = $("#highBP").val();
+        var bpSysLow = $("#lowSysBP").val();
+        var bpSysHigh = $("#highSysBP").val();
+        var bpDiasLow = $("#lowDiasBP").val();
+        var bpDiasHigh = $("#highDiasBP").val();
         var temperatureLow = $("#lowTemp").val();
         var temperatureHigh = $("#highTemp").val();
         var nurseEmail = $("#nurseEmail").val();
+        var bloodPressureSys = $("#initialSys").val();
+        var bloodPressureDias = $("#initialDias").val();
 
         $.ajax("http://localhost:3000/patient/",{
             contentType: 'application/json',
@@ -137,11 +159,15 @@ $(document).ready(function(){
                 "patientId":patientId,
                 "pulseRateLow":pulseRateLow,
                 "pulseRateHigh":pulseRateHigh,
-                "bloodPressureLow":bloodPressureLow,
-                "bloodPressureHigh":bloodPressureHigh,
+                "bpSysLow":bpSysLow,
+                "bpSysHigh":bpSysHigh,
+                "bpDiasLow":bpDiasLow,
+                "bpDiasHigh":bpDiasHigh,
                 "temperatureLow":temperatureLow,
                 "temperatureHigh":temperatureHigh,
-                "nurseEmail":nurseEmail
+                "nurseEmail":nurseEmail,
+                "bloodPressureSys":bloodPressureSys,
+                "bloodPressureDias": bloodPressureDias
             }),
             type: 'POST'
         });

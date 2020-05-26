@@ -118,12 +118,12 @@
           </div>
           <div class="col-sm-4">
               <!-- <p>Temperature table here</p> -->
-              <table id="tmpTable" class="table-bordered" style="width: 300px; max-height: 300px; overflow: auto; display: block;">
+              <table id="tmpTable" class="table table-bordered" style="width: 400px; max-height: 300px; overflow: auto; display: block;">
                 <caption id="tmpTableCaption"></caption>
               </table>
           </div>
           <div class="col-sm-4"> 
-            <p>Choose Date Range here</p>
+            <!-- <p>Choose Date Range here</p> -->
           </div>
         </div>
       </div>  
@@ -135,12 +135,12 @@
           </div>
           <div class="col-sm-4">
               <!-- <p>Temperature table here</p> -->
-              <table id="bpTable" class="table-bordered" style="width: 300px; max-height: 300px; overflow: auto; display: block;">
+              <table id="bpTable" class="table table-bordered" style="width: 400px; max-height: 300px; overflow: auto; display: block;">
                 <caption id="bpTableCaption"></caption>
               </table>
           </div>
           <div class="col-sm-4"> 
-            <p>Choose Date Range here</p>
+            <!-- <p>Choose Date Range here</p> -->
           </div>
         </div>
       </div>
@@ -152,12 +152,12 @@
           </div>
           <div class="col-sm-4">
               <!-- <p>Temperature table here</p> -->
-              <table id="pulseTable" class="table-bordered" style="width: 300px; max-height: 300px; overflow: auto; display: block;">
+              <table id="pulseTable" class="table table-bordered" style="width: 400px; max-height: 300px; overflow: auto; display: block;">
                 <caption id="pulseTableCaption"></caption>
               </table>
           </div>
           <div class="col-sm-4"> 
-            <p>Choose Date Range here</p>
+            <!-- <p>Choose Date Range here</p> -->
           </div>
         </div>
       </div>
@@ -226,7 +226,7 @@ $(document).ready(function(){
             <tbody>\
             <tr>\
                 <td></td>\
-                <td>${patientObject.bloodPressureLow}-${patientObject.bloodPressureHigh}</td>\
+                <td>${patientObject.bpSysLow}/${patientObject.bpDiasLow}-${patientObject.bpSysHigh}/${patientObject.bpDiasHigh}</td>\
                 <td>${patientObject.pulseRateLow}-${patientObject.pulseRateHigh}</td>\
                 <td>${patientObject.temperatureLow}-${patientObject.temperatureHigh}</td>\
             </tr>\
@@ -259,14 +259,16 @@ $(document).ready(function(){
             $("#bpTable").append(`\
             <thead>/
             <tr>\
-                <th>Blood Pressure(mmHg)</th>\
+                <th>Systolic (mmHg)</th>\
+                <th>Diastolic (mmHg)</th>\
                 <th>Date</th>\
                 <th>Alert</th>\
             </tr>\
             </thead>\
             <tbody>\
             <tr>\
-                <td>${patient.bloodPressureCur}</td>\
+                <td>${patient.bloodPressureSys}</td>\
+                <td>${patient.bloodPressureDias}</td>\
                 <td>${patient.date}</td>\
                 <td>${patient.alerts}</td>\
             </tr>\
@@ -290,7 +292,14 @@ $(document).ready(function(){
             </tbody>\
             `)
 
-        }})
+        }
+        if (patient.positionCur === "1"){
+            document.getElementById("patientPos").innerHTML = "Upright   ";
+        }
+        else {
+            document.getElementById("patientPos").innerHTML = "Lying down";
+        }
+    })
             
         });
 });
@@ -299,7 +308,8 @@ $(document).ready(function(){
 <script>
     document.getElementById("search").addEventListener("click", function(e){
         e.preventDefault();
-        var dataPointsBP = [];
+        var dataPointsSys = [];
+        var dataPointsDias = [];
         var chart = new CanvasJS.Chart("chartContainerBP",{
             title:{
                 text:"Patient Blood Pressure Chart"
@@ -314,14 +324,26 @@ $(document).ready(function(){
             },
             data:[{
                 type: "line",
-                dataPoints : dataPointsBP,
-            }]
+                axisYType: "secondary",
+                dataPoints : dataPointsSys,
+                name: "Systolic",
+                showInLegend: true
+            },
+            {
+                type: "line",
+                axisYType: "secondary",
+                dataPoints : dataPointsDias,
+                name: "Diastolic",
+                showInLegend: true
+            }
+        ]
         });
         var patientId = $("#singlePatient").val();
         $.getJSON(`http://localhost:3000/patient/all/${patientId}`, function(data, status){
             $.each(data, function(key, value){
                 console.log(value.bloodPressureCur)
-                dataPointsBP.push({x: new Date(value.date), y: parseInt(value.bloodPressureCur)});
+                dataPointsSys.push({x: new Date(value.date), y: parseInt(value.bloodPressureSys)});
+                dataPointsDias.push({x: new Date(value.date), y: parseInt(value.bloodPressureDias)});
                 // chart.options.stripLines.value= value.bloodPressureHigh
             });
             chart.render();
