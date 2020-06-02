@@ -49,10 +49,18 @@ router.post('/parse', function (req, res){
 
     var patientData = data.split(',');
 
+    if (patientData.length != 8) {
+        //do not continue code
+    }
+
     var maxVolt = parseFloat(patientData[4]);
     var minVolt = parseFloat(patientData[5]);
     var systolVolt = parseFloat(patientData[6]);
     var diastolVolt = parseFloat(patientData[7]);
+
+    if (isNaN(maxVolt) || isNaN(minVolt) || isNaN(systolVolt) || isNaN(diastolVolt)){
+        //do not continue code
+    }
 
     console.log("voltage type: " + typeof maxVolt);
     
@@ -194,9 +202,17 @@ router.put('/:patientId', function (req,res){
 });
 
 //Delete a patient
+// router.delete('/:patientId', function(req,res){
+//     console.log("Delete");
+//     Patient.findOneAndRemove({patientId:req.params.patientId}, function (err){
+//         if (err) throw err;
+//         res.json('Deleted');
+//     })
+// });
+
 router.delete('/:patientId', function(req,res){
     console.log("Delete");
-    Patient.findOneAndRemove({patientId:req.params.patientId}, function (err){
+    Patient.deleteMany({patientId:req.params.patientId}, function (err){
         if (err) throw err;
         res.json('Deleted');
     })
