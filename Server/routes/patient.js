@@ -98,12 +98,14 @@ router.post('/parse', function (req, res){
         Patient.findOne((query),(function(err,result){
             if (err) throw (err);
             console.log(result);
-            result.alerts = false;
+            // result.alerts = false;
 
             if ((curPulseRate > result.pulseRateHigh) || (curPulseRate < result.pulseRateLow)){
                 console.log("Advise nurse about heart rate");
                 msg += ` Current heart rate of ${curPulseRate} and limits of ${result.pulseRateLow}-${result.pulseRateHigh} bpm`
-                result.alerts = true;
+                // result.alerts = true;
+                // alertPulse = true
+                Patient.findOneAndUpdate({patientId : patient.patientId, date: patient.date}, {pulseAlert: true});
             }
             else {
                 console.log("Heart rate safe");
@@ -111,7 +113,9 @@ router.post('/parse', function (req, res){
             if ((curSysPress > result.bpSysHigh) || (curSysPress < result.bpSysLow)){
                 console.log("Advise nurse about blood pressure");
                 msg += ` Current blood pressure of ${curSysPress} and limits of ${result.bpSysLow}/${result.bpDiasLow}-${result.bpSysHigh}/${result.bpDiasHigh} mmHg`
-                result.alerts = true;
+                // result.alerts = true;
+                // alertBP = true
+                Patient.findOneAndUpdate({patientId : patient.patientId, date: patient.date}, {bpAlert: true});
             }
             else {
                 console.log("blood pressure safe");
@@ -119,7 +123,9 @@ router.post('/parse', function (req, res){
             if ((curDiasPress > result.bpDiasHigh) || (curDiasPress < result.bpDiasLow)){
                 console.log("Advise nurse about blood pressure");
                 msg += ` Current blood pressure of ${curDiasPress} and limits of ${result.bpSysLow}/${result.bpDiasLow}-${result.bpSysHigh}/${result.bpDiasHigh} mmHg`
-                result.alerts = true;
+                // result.alerts = true;
+                // alertBP = true
+                Patient.findOneAndUpdate({patientId : patient.patientId, date: patient.date}, {bpAlert: true});
             }
             else {
                 console.log("blood pressure safe");
@@ -127,7 +133,9 @@ router.post('/parse', function (req, res){
             if ((curTemp > result.temperatureHigh) || (curTemp < result.temperatureLow)){
                 console.log("Advise nurse about temperature");
                 msg += ` Current temperature of ${curTemp} and limits of ${result.temperatureLow}-${result.temperatureHigh} C`
-                result.alerts = true;
+                // result.alerts = true;
+                // alertTemp = true
+                Patient.findOneAndUpdate({patientId : patient.patientId, date: patient.date}, {tempAlert: true});
             }
             else {
                 console.log("Temperature safe");
@@ -154,7 +162,16 @@ router.post('/parse', function (req, res){
 
     }));
     })
-    .catch ( (err) => { res.sendStatus(400);console.log(err);} );  
+    .catch ( (err) => { res.sendStatus(400);console.log(err);} ); 
+    if (alertBP == true){
+
+    }
+    if (alertPulse == true){
+        
+    }
+    if (alertTemp == true){
+        
+    } 
 });
 
 // io.on('connection', function (socket){
