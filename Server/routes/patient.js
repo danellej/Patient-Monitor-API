@@ -97,7 +97,7 @@ router.post('/parse', function (req, res){
 
         Patient.findOne((query),(function(err,result){
             if (err) throw (err);
-            console.log(result);
+            // console.log(result);
             // result.alerts = false;
 
             if ((curPulseRate > result.pulseRateHigh) || (curPulseRate < result.pulseRateLow)){
@@ -106,6 +106,7 @@ router.post('/parse', function (req, res){
                 // result.alerts = true;
                 // alertPulse = true
                 Patient.findOneAndUpdate({patientId : patient.patientId, date: patient.date}, {pulseAlert: true});
+                console.log("----pulse alert made---");
             }
             else {
                 console.log("Heart rate safe");
@@ -116,6 +117,7 @@ router.post('/parse', function (req, res){
                 // result.alerts = true;
                 // alertBP = true
                 Patient.findOneAndUpdate({patientId : patient.patientId, date: patient.date}, {bpAlert: true});
+                console.log("----sys bp alert made---");
             }
             else {
                 console.log("blood pressure safe");
@@ -126,6 +128,7 @@ router.post('/parse', function (req, res){
                 // result.alerts = true;
                 // alertBP = true
                 Patient.findOneAndUpdate({patientId : patient.patientId, date: patient.date}, {bpAlert: true});
+                console.log("----dias bp alert made---");
             }
             else {
                 console.log("blood pressure safe");
@@ -136,6 +139,7 @@ router.post('/parse', function (req, res){
                 // result.alerts = true;
                 // alertTemp = true
                 Patient.findOneAndUpdate({patientId : patient.patientId, date: patient.date}, {tempAlert: true});
+                console.log("----temp alert made---");
             }
             else {
                 console.log("Temperature safe");
