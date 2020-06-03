@@ -53,9 +53,6 @@ const patientSchema = mongoose.Schema({
     positionCur: {
         type: String
     },
-    // alerts: {
-    //     type: Boolean
-    // },
     pulseAlert: {
         type: Boolean,
         default: false
