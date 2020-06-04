@@ -83,7 +83,7 @@ router.post('/parse', function (req, res){
         pulseRateCur : patientData[3],
         bloodPressureSys : sys,
         bloodPressureDias : dias,
-        date : new Date()
+        date : new Date().toISOString.substring(0, 10)
     });
     newPatient.save()
     .then ( (patient) => {
@@ -98,21 +98,11 @@ router.post('/parse', function (req, res){
 
         Patient.findOne((query),(function(err,result){
             if (err) throw (err);
-<<<<<<< HEAD
-            // console.log(result);
-            // result.alerts = false;
-=======
->>>>>>> 66a5023832bb61124e7a516c72e68a445a21fd77
 
             if ((curPulseRate > result.pulseRateHigh) || (curPulseRate < result.pulseRateLow)){
                 console.log("Advise nurse about heart rate");
                 msg += ` Current heart rate of ${curPulseRate} and limits of ${result.pulseRateLow}-${result.pulseRateHigh} bpm`
                 alertPulse = true;
-                // Patient.findOneAndUpdate(updatequery, {pulseAlert : true},function (err,patient){
-                //     if (err) throw err;
-                //     console.log("----UPDATING PULSE----")
-                // });
-                console.log("---pulse alert made---");
             }
             else {
                 console.log("Heart rate safe");
@@ -121,11 +111,6 @@ router.post('/parse', function (req, res){
                 console.log("Advise nurse about blood pressure");
                 msg += ` Current blood pressure of ${curSysPress} and limits of ${result.bpSysLow}/${result.bpDiasLow}-${result.bpSysHigh}/${result.bpDiasHigh} mmHg`
                 alertBP = true;
-                // Patient.findOneAndUpdate(updatequery, {bpAlert : true},function (err,patient){
-                //     if (err) throw err;
-                //     console.log("----UPDATING BP SYS----")
-                // });
-                console.log("---sys bp alert made---");
             }
             else {
                 console.log("blood pressure safe");
@@ -134,11 +119,6 @@ router.post('/parse', function (req, res){
                 console.log("Advise nurse about blood pressure");
                 msg += ` Current blood pressure of ${curDiasPress} and limits of ${result.bpSysLow}/${result.bpDiasLow}-${result.bpSysHigh}/${result.bpDiasHigh} mmHg`
                 alertBP = true;
-                // Patient.findOneAndUpdate(updatequery, {bpAlert : true},function (err,patient){
-                //     if (err) throw err;
-                //     console.log("----UPDATING BP DIAS----")
-                // });
-                console.log("---dias bp alert made---");
             }
             else {
                 console.log("blood pressure safe");
@@ -147,19 +127,12 @@ router.post('/parse', function (req, res){
                 console.log("Advise nurse about temperature");
                 msg += ` Current temperature of ${curTemp} and limits of ${result.temperatureLow}-${result.temperatureHigh} C`
                 alertTemp = true;
-                // Patient.findOneAndUpdate(updatequery, {tempAlert : true},function (err,patient){
-                //     if (err) throw err;
-                //     console.log("----UPDATING TEMP----")
-                // });
-                console.log("---temp alert made---");
             }
             else {
                 console.log("Temperature safe");
             }
 
-            console.log("alertBP" + alertBP)
             if (alertBP === true){
-                console.log("BP ALERT CHECKED");
                 Patient.findOneAndUpdate(updatequery, {bpAlert : true},function (err,patient){
                     if (err) throw err;
                     console.log("----UPDATING BP DIAS----")
@@ -174,8 +147,8 @@ router.post('/parse', function (req, res){
             if (alertPulse === true){
                 Patient.findOneAndUpdate(updatequery, {pulseAlert : true},function (err,patient){
                     if (err) throw err;
-                    patient.markModified('patient.pulseAlert');
-                    patient.save();
+                    // patient.markModified('patient.pulseAlert');
+                    // patient.save();
                     console.log("----UPDATING PULSE----")
                 });
             }
