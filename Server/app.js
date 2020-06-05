@@ -14,8 +14,8 @@ app.use(cors());
 console.log(process.env.PATIENT_MONITOR_MONGO);
 
 const mongoose = require('mongoose');
-// mongoose.connect(process.env.PATIENT_MONITOR_MONGO, { useMongoClient:true });
-mongoose.connect(process.env.PATIENT_MONITOR_MONGO, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.PATIENT_MONITOR_MONGO, { useMongoClient:true });
+// mongoose.connect(process.env.PATIENT_MONITOR_MONGO, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 
 var port = process.env.PATIENT_MONITOR_PORT || 5500;

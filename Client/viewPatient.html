@@ -78,22 +78,22 @@
     <div class="container-fluid bg-3 text-center" style="padding-top: 30px;">    
         <div class="row">
             <div class="col-xs-2">
-                <p id="patientInfo" style="margin-left: 4.16666667%;"></p>
+                <p id="patientInfo" style="margin-left: 4.16666667%; color:rgb(143, 68, 68);"></p>
               </div>
           <div class="col-xs-2">
-            <p id="nameHolder"></p>
+            <p id="nameHolder" style="color:rgb(143, 68, 68);"></p>
             <p id="patientName" style="margin-left: 4.16666667%;"></p>
           </div>
           <div class="col-xs-2"> 
-            <p id="ageHolder"></p>
+            <p id="ageHolder" style="color:rgb(143, 68, 68);"></p>
             <p id="patientAge" style="margin-left: 4.16666667%;"></p>
           </div>
           <div class="col-xs-2"> 
-            <p id="emailHolder"></p>
+            <p id="emailHolder" style="color:rgb(143, 68, 68);"></p>
             <p id="patientNurse" style="margin-left: 4.16666667%;"></p>
           </div>
           <div class="col-xs-2"> 
-            <p id="posHolder"></p>
+            <p id="posHolder" style="color:rgb(143, 68, 68);"></p>
             <p id="patientPos" style="margin-left: 4.16666667%;"></p>
           </div>
         </div>
@@ -121,9 +121,7 @@
                   <input type="submit" id="tempSubmit">
               </form>
               <p id="tempMsg"></p>
-              <table id="alertTable1" class="table table-bordered">
-                <caption id="tableCaption"></caption>
-            </table>
+              <table id="alertTable1" class="table table-bordered" style="width: 280px; max-height: 250px; overflow: auto; display: block;"></table>
           </div>
         </div>
       </div>  
@@ -139,14 +137,12 @@
           </div>
           <div class="col-sm-4"> 
             <form>
-                <label for="tempAlert">Sort BP Alerts</label>
+                <label for="bpAlert">Sort BP Alerts</label>
                 <input type="date" id="bpDate">
                 <input type="submit" id="bpSubmit">
             </form>
             <p id="bpMsg"></p>
-            <table id="alertTable2" class="table table-bordered">
-                <caption id="tableCaption"></caption>
-            </table>
+            <table id="alertTable2" class="table table-bordered" style="width: 400px; max-height: 250px; overflow: auto; display: block;"></table>
           </div>
         </div>
       </div>
@@ -162,14 +158,12 @@
           </div>
           <div class="col-sm-4"> 
             <form>
-                <label for="tempAlert">Sort Pulse Alerts</label>
+                <label for="pulseAlert">Sort Pulse Alerts</label>
                 <input type="date" id="pulseDate">
                 <input type="submit" id="pulseSubmit">
             </form>
             <p id="pulseMsg"></p>
-            <table id="alertTable3" class="table table-bordered">
-                <caption id="tableCaption"></caption>
-            </table>
+            <table id="alertTable3" class="table table-bordered" style="width: 280px; max-height: 250px; overflow: auto; display: block;"></table>
           </div>
         </div>
       </div>
@@ -196,10 +190,10 @@ $(document).ready(function(){
         $.get("http://localhost:3000/patient/date/"+patientId+"/"+x, function(object, status){
             var alertTable1 = document.getElementById("alertTable1");
 
-            // var patientData = object;
+            var patientData = object;
  
-            // patientData.map((patient)=>{
-                // if (patient.tempAlert === true){
+            patientData.map((patient)=>{
+                if (patient.tempAlert === true){
             $("#alertTable1").append(`\
             <thead>/
             <tr>\
@@ -209,13 +203,13 @@ $(document).ready(function(){
             </thead>\
             <tbody>\
             <tr>\
-                <td>${object.temperatureCur}</td>\
-                <td>${object.time}</td>\
+                <td>${patient.temperatureCur}</td>\
+                <td>${patient.time}</td>\
             </tr>\
             </tbody>\
             `)
-            //}
-        // })
+            }
+        })
         })
 
     });
@@ -226,24 +220,22 @@ $(document).ready(function(){
         // document.getElementById("bpMsg").innerHTML = "Date: " + x;
 
         $.get("http://localhost:3000/patient/date/"+patientId+"/"+x, function(object, status){
-            var alertTable2 = document.getElementById("alertTable1");
+            var alertTable2 = document.getElementById("alertTable2");
 
             var patientData = object;
  
             patientData.map((patient)=>{
                 if (patient.bpAlert === true){
-            $("#alertTable1").append(`\
+            $("#alertTable2").append(`\
             <thead>/
             <tr>\
                 <th>Blood Pressure (mmHg)</th>\
-                <th>Date</th>\
                 <th>Time</th>\
             </tr>\
             </thead>\
             <tbody>\
             <tr>\
                 <td>${patient.bloodPressureSys}/${patient.bloodPressureDias}</td>\
-                <td>${patient.date}</td>\
                 <td>${patient.time}</td>\
             </tr>\
             </tbody>\
@@ -259,24 +251,22 @@ $(document).ready(function(){
         // document.getElementById("pulseMsg").innerHTML = "Date: " + x;
 
         $.get("http://localhost:3000/patient/date/"+patientId+"/"+x, function(object, status){
-            var alertTable2 = document.getElementById("alertTable1");
+            var alertTable3 = document.getElementById("alertTable3");
 
             var patientData = object;
  
             patientData.map((patient)=>{
                 if (patient.pulseAlert === true){
-            $("#alertTable1").append(`\
+            $("#alertTable3").append(`\
             <thead>/
             <tr>\
                 <th>Heart Rate (bpm)</th>\
-                <th>Date</th>\
                 <th>Time</th>\
             </tr>\
             </thead>\
             <tbody>\
             <tr>\
                 <td>${patient.pulseRateCur}</td>\
-                <td>${patient.date}</td>\
                 <td>${patient.time}</td>\
             </tr>\
             </tbody>\
@@ -354,7 +344,7 @@ $(document).ready(function(){
              $("#tmpTable").append(`\
             <thead>/
             <tr>\
-                <th>Temperature(C)</th>\
+                <th>Temperature(°C)</th>\
                 <th>Date</th>\
                 <th>Alert</th>\
             </tr>\

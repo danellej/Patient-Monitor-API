@@ -69,8 +69,12 @@ const patientSchema = mongoose.Schema({
         type: Date
         // default: Date.now
     },
-    time: {
+    fullDate: {
         type: Date
+        // default: Date.now
+    },
+    time: {
+        type: String
         // default: Date.now
     }
 });

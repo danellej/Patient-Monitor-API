@@ -81,21 +81,29 @@ router.post('/parse', function (req, res){
         temperatureCur : patientData[1], //pulseratecur
         positionCur: patientData[2], //bloodpressurecur
         pulseRateCur : patientData[3],
-        bloodPressureSys : sys,
-        bloodPressureDias : dias,
-        date : new Date().toISOString.substring(0, 10),
-        time : new Date().toISOString.substring(11, 19)
+        bloodPressureSys : sys.toFixed(2),
+        bloodPressureDias : dias.toFixed(2),
+        fullDate : new Date(),
+        date : new Date().toISOString().substring(0, 10)
+        // time : new Date().toISOString().substring(11, 19)
     });
     newPatient.save()
     .then ( (patient) => {
         console.log(`New Patient: ${patient}`);
         var query = {patientId : patient.patientId};
-        updatequery = {patientId : patient.patientId, date: patient.date}
+        updatequery = {patientId : patient.patientId, fullDate: patient.fullDate}
 
         var curPulseRate = parseInt(patient.pulseRateCur);
         var curSysPress = parseInt(patient.bloodPressureSys);
         var curDiasPress = parseInt(patient.bloodPressureDias);
         var curTemp = parseInt(patient.temperatureCur);
+
+        var curTime = (patient.fullDate).toISOString().substring(11, 19);
+
+        Patient.findOneAndUpdate(updatequery, {time: curTime}, function (err,patient){
+            if (err) throw err;
+            console.log("------TIME UPDATED-------")
+        });
 
         Patient.findOne((query),(function(err,result){
             if (err) throw (err);
@@ -136,20 +144,24 @@ router.post('/parse', function (req, res){
             if (alertBP === true){
                 Patient.findOneAndUpdate(updatequery, {bpAlert : true},function (err,patient){
                     if (err) throw err;
+                    patient.markModified('patient.bpAlert');
+                    patient.save();
                     console.log("----UPDATING BP DIAS----")
                 });
             }
             if (alertTemp === true){
                 Patient.findOneAndUpdate(updatequery, {tempAlert : true},function (err,patient){
                     if (err) throw err;
+                    patient.markModified('patient.trmpAlert');
+                    patient.save();
                     console.log("----UPDATING TEMP----")
                 });
             }
             if (alertPulse === true){
                 Patient.findOneAndUpdate(updatequery, {pulseAlert : true},function (err,patient){
                     if (err) throw err;
-                    // patient.markModified('patient.pulseAlert');
-                    // patient.save();
+                    patient.markModified('patient.pulseAlert');
+                    patient.save();
                     console.log("----UPDATING PULSE----")
                 });
             }
