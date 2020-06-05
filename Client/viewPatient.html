@@ -144,6 +144,9 @@
                 <input type="submit" id="bpSubmit">
             </form>
             <p id="bpMsg"></p>
+            <table id="alertTable2" class="table table-bordered">
+                <caption id="tableCaption"></caption>
+            </table>
           </div>
         </div>
       </div>
@@ -164,6 +167,9 @@
                 <input type="submit" id="pulseSubmit">
             </form>
             <p id="pulseMsg"></p>
+            <table id="alertTable3" class="table table-bordered">
+                <caption id="tableCaption"></caption>
+            </table>
           </div>
         </div>
       </div>
@@ -189,32 +195,95 @@ $(document).ready(function(){
 
         $.get("http://localhost:3000/patient/date/"+patientId+"/"+x, function(object, status){
             var alertTable1 = document.getElementById("alertTable1");
+
+            // var patientData = object;
+ 
+            // patientData.map((patient)=>{
+                // if (patient.tempAlert === true){
             $("#alertTable1").append(`\
             <thead>/
             <tr>\
-                <th>Date</th>\
                 <th>Temperature (°C)</th>\
+                <th>Time</th>\
             </tr>\
             </thead>\
             <tbody>\
             <tr>\
-                <td>${object.date}</td>\
                 <td>${object.temperatureCur}</td>\
+                <td>${object.time}</td>\
             </tr>\
             </tbody>\
             `)
+            //}
+        // })
         })
 
     });
+
     document.getElementById("bpSubmit").addEventListener("click", function(e){
         e.preventDefault();
         var patientId = $("#singlePatient").val(); var x = document.getElementById("bpDate").value;
         // document.getElementById("bpMsg").innerHTML = "Date: " + x;
+
+        $.get("http://localhost:3000/patient/date/"+patientId+"/"+x, function(object, status){
+            var alertTable2 = document.getElementById("alertTable1");
+
+            var patientData = object;
+ 
+            patientData.map((patient)=>{
+                if (patient.bpAlert === true){
+            $("#alertTable1").append(`\
+            <thead>/
+            <tr>\
+                <th>Blood Pressure (mmHg)</th>\
+                <th>Date</th>\
+                <th>Time</th>\
+            </tr>\
+            </thead>\
+            <tbody>\
+            <tr>\
+                <td>${patient.bloodPressureSys}/${patient.bloodPressureDias}</td>\
+                <td>${patient.date}</td>\
+                <td>${patient.time}</td>\
+            </tr>\
+            </tbody>\
+            `)}
+        })
+        })
+
     });
+
     document.getElementById("pulseSubmit").addEventListener("click", function(e){
         e.preventDefault();
         var patientId = $("#singlePatient").val(); var x = document.getElementById("pulseDate").value;
         // document.getElementById("pulseMsg").innerHTML = "Date: " + x;
+
+        $.get("http://localhost:3000/patient/date/"+patientId+"/"+x, function(object, status){
+            var alertTable2 = document.getElementById("alertTable1");
+
+            var patientData = object;
+ 
+            patientData.map((patient)=>{
+                if (patient.pulseAlert === true){
+            $("#alertTable1").append(`\
+            <thead>/
+            <tr>\
+                <th>Heart Rate (bpm)</th>\
+                <th>Date</th>\
+                <th>Time</th>\
+            </tr>\
+            </thead>\
+            <tbody>\
+            <tr>\
+                <td>${patient.pulseRateCur}</td>\
+                <td>${patient.date}</td>\
+                <td>${patient.time}</td>\
+            </tr>\
+            </tbody>\
+            `)}
+        })
+        })
+
     });
 </script>
 

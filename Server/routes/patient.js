@@ -83,7 +83,8 @@ router.post('/parse', function (req, res){
         pulseRateCur : patientData[3],
         bloodPressureSys : sys,
         bloodPressureDias : dias,
-        date : new Date().toISOString.substring(0, 10)
+        date : new Date().toISOString.substring(0, 10),
+        time : new Date().toISOString.substring(11, 19)
     });
     newPatient.save()
     .then ( (patient) => {
