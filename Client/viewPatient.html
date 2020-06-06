@@ -337,10 +337,28 @@ $(document).ready(function(){
         });
 
         $.get("http://localhost:3000/patient/all/"+patientId, function(data, status){
-            var patientData = data;
+            var patientData = data; var tempState; var bpState; var pulseState;
  
             patientData.map((patient)=>{
                 if (patient.date != null){
+                    if (patient.tempAlert === true){
+                        tempState = "yes";
+                    }
+                    else{
+                        tempState = "no";
+                    }
+                    if (patient.bpAlert === true){
+                        bpState = "yes";
+                    }
+                    else{
+                        bpState = "no";
+                    }
+                    if (patient.pulseAlert === true){
+                        pulseState = "yes";
+                    }
+                    else{
+                        pulseState = "no";
+                    }
              $("#tmpTable").append(`\
             <thead>/
             <tr>\
@@ -353,7 +371,7 @@ $(document).ready(function(){
             <tr>\
                 <td>${patient.temperatureCur}</td>\
                 <td>${patient.date}</td>\
-                <td>${patient.alerts}</td>\
+                <td>${tempState}</td>\
             </tr>\
             </tbody>\
             `)
@@ -372,7 +390,7 @@ $(document).ready(function(){
                 <td>${patient.bloodPressureSys}</td>\
                 <td>${patient.bloodPressureDias}</td>\
                 <td>${patient.date}</td>\
-                <td>${patient.alerts}</td>\
+                <td>${bpState}</td>\
             </tr>\
             </tbody>\
             `)
@@ -389,7 +407,7 @@ $(document).ready(function(){
             <tr>\
                 <td>${patient.pulseRateCur}</td>\
                 <td>${patient.date}</td>\
-                <td>${patient.alerts}</td>\
+                <td>${pulseState}</td>\
             </tr>\
             </tbody>\
             `)
