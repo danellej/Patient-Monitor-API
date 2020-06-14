@@ -65,7 +65,7 @@ router.post('/parse', function (req, res){
     // console.log("voltage type: " + typeof maxVolt);
     
 
-    Patient.findOne({patientId : patientData[0]},(function(err,result){
+    Patient.find({patientId : patientData[0], name : {$ne: null} },(function(err,result){
         if (err) throw (err);
         console.log(result);
 
@@ -90,7 +90,7 @@ router.post('/parse', function (req, res){
     newPatient.save()
     .then ( (patient) => {
         console.log(`New Patient: ${patient}`);
-        var query = {patientId : patient.patientId};
+        var query = {patientId : patient.patientId, name : {$ne : null}};
         updatequery = {patientId : patient.patientId, fullDate: patient.fullDate}
 
         var curPulseRate = parseInt(patient.pulseRateCur);
@@ -204,7 +204,7 @@ router.get('/all', function(req,res) {
 
 //Find patient by id
 router.get('/patientId/:patientId', function (req, res){
-    Patient.findOne({patientId: req.params.patientId}, function(err, patient) {
+    Patient.findOne({patientId: req.params.patientId, name: {$ne:null}}, function(err, patient) {
         if (err) throw err;
         res.json(patient);
     });
