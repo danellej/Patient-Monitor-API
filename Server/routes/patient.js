@@ -234,20 +234,21 @@ router.put('/:patientId', function (req,res){
     });
 });
 
-//Delete a patient
-// router.delete('/:patientId', function(req,res){
-//     console.log("Delete");
-//     Patient.findOneAndRemove({patientId:req.params.patientId}, function (err){
-//         if (err) throw err;
-//         res.json('Deleted');
-//     })
-// });
+//Delete a patient by date
+router.delete('/delete/:patientId/:fullDate', function(req,res){
+    console.log("Delete");
+    Patient.deleteMany({patientId:req.params.patientId, fullDate: req.params.fullDate}, function (err){
+        if (err) throw err;
+        res.json('Deleted patient by date');
+    })
+});
 
+//Delete all instances of a patient
 router.delete('/:patientId', function(req,res){
     console.log("Delete");
     Patient.deleteMany({patientId:req.params.patientId}, function (err){
         if (err) throw err;
-        res.json('Deleted');
+        res.json('Deleted all of patient');
     })
 });
 

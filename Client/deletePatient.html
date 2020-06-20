@@ -60,16 +60,13 @@
 </nav>
 
 <div class="container" style="text-align: center">
-    <h4>Delete Patient by ID Number</h4>
+    <!-- <h4>Delete Patient by ID Number</h4> -->
     <form class="form-horizontal" id="delete-form">
-        <div class="form-group">
-            <label class="control-label col-sm-2" for="patientId">Patient ID:</label>
-            <div class="col-sm-10">
-                <input type="text" autocomplete="off" class="form-control" id="patientId" placeholder="Enter ID of Patient to be deleted">
+        <div class="input-group" style="width:600px;">
+            <input type="text" autocomplete="off" class="form-control" id="patientId" placeholder="Enter ID of Patient to be deleted">
+            <div class="input-group-btn">
+                <button type="submit" id="deletePatient" class="btn btn-danger">Delete Patient</button>
             </div>
-        </div>
-        <div>
-            <button type="submit" id="deletePatient" class="btn btn-danger">Delete Patient</button>
         </div>
     </form>
 </div>

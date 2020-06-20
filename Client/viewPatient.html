@@ -461,8 +461,8 @@ $(document).ready(function(){
         $.getJSON(`http://localhost:3000/patient/all/${patientId}`, function(data, status){
             $.each(data, function(key, value){
                 console.log(value.bloodPressureCur)
-                dataPointsSys.push({x: new Date(value.date), y: parseInt(value.bloodPressureSys)});
-                dataPointsDias.push({x: new Date(value.date), y: parseInt(value.bloodPressureDias)});
+                dataPointsSys.push({x: new Date(value.fullDate), y: parseInt(value.bloodPressureSys)});
+                dataPointsDias.push({x: new Date(value.fullDate), y: parseInt(value.bloodPressureDias)});
                 // chart.options.stripLines.value= value.bloodPressureHigh
             });
             chart.render();
@@ -513,7 +513,7 @@ $(document).ready(function(){
             $.each(data, function(key, value){
                 if (value.date != null){
                 console.log(value.temperatureCur)
-                dataPointsTMP.push({x: new Date(value.date), y: parseInt(value.temperatureCur)});
+                dataPointsTMP.push({x: new Date(value.fullDate), y: parseInt(value.temperatureCur)});
                 // chart.options.stripLines.value= value.bloodPressureHigh
             }});
             chart.render();
@@ -562,7 +562,7 @@ $(document).ready(function(){
         $.getJSON(`http://localhost:3000/patient/all/${patientId}`, function(data, status){
             $.each(data, function(key, value){
                 console.log(value.pulseRateCur)
-                dataPointsHRM.push({x: new Date(value.date), y: parseInt(value.pulseRateCur)});
+                dataPointsHRM.push({x: new Date(value.fullDate), y: parseInt(value.pulseRateCur)});
                 // chart.options.stripLines.value= value.bloodPressureHigh
             });
             chart.render();
