@@ -75,12 +75,17 @@ router.post('/parse', function (req, res){
     Patient.find({patientId : patientData[0], name : {$ne: null} },(function(err,result){
         if (err) throw (err);
         console.log(result);
+        
+        var bloodPressureSys = parseInt(result[0].bloodPressureSys);
+        var bloodPressureDias = parseInt(result[0].bloodPressureDias);
+        console.log("----ORIGINAL SYSTOLIC: " + bloodPressureSys + " " + typeof(bloodPressureSys));
+        console.log("----ORIGINAL DIASTOLIC: " + bloodPressureDias + " " + typeof(bloodPressureDias));
 
-    //   sys = ((systolVolt - minVolt)/(maxVolt - minVolt) * (result.bloodPressureSys - result.bloodPressureDias)) + result.bloodPressureDias;
-    //   dias = ((diastolVolt - minVolt)/(maxVolt - minVolt) * (result.bloodPressureSys - result.bloodPressureDias)) + result.bloodPressureDias;
+      sys = ((systolVolt - minVolt)/(maxVolt - minVolt) * (bloodPressureSys - bloodPressureDias)) + bloodPressureDias;
+      dias = ((diastolVolt - minVolt)/(maxVolt - minVolt) * (bloodPressureSys - bloodPressureDias)) + bloodPressureDias;
 
-    sys = ((systolVolt - minVolt)/(maxVolt - minVolt) * (120 - 80)) + 80;
-    dias = ((diastolVolt - minVolt)/(maxVolt - minVolt) * (120 - 80)) + 80;
+    // sys = ((systolVolt - minVolt)/(maxVolt - minVolt) * (120 - 80)) + 80;
+    // dias = ((diastolVolt - minVolt)/(maxVolt - minVolt) * (120 - 80)) + 80;
     }));
 
     var newPatient = new Patient({
