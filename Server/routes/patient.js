@@ -6,12 +6,19 @@ var server = http.createServer(app);
 var io = require('socket.io')(server);
 var path = require('path');
 var nodemailer = require('nodemailer');
+const TelegramBot = require('node-telegram-bot-api');
+const token = '1189516018:AAEmN8685iLMIXmK4rkljRuEtkcBEMpA2xg'
 
 const Patient = require('../models/Patient');
+const bot = new TelegramBot(token, {polling: true});
 
 // router.get ('/', (req,res) => {
 //     res.sendFile('index.html', {root: path.join(__dirname, '../')});
 // });
+
+bot.on('message', (msg) => {
+    bot.sendMessage(msg.chat.id, 'wassup')
+});
 
 router.get ('/1', (req,res) => {
     res.send('dxfchgjkjlk;');

@@ -5,6 +5,8 @@ var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var cors = require('cors');
 var fs = require('fs');
+const TelegramBot = require('node-telegram-bot-api');
+const token = process.env.token
 
 require('dotenv').config();
 
