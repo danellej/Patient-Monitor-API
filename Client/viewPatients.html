@@ -68,8 +68,8 @@
             <th>Patient ID</th>
             <th>Heart Rate</th>
             <th>Temperature</th>
-            <th>Blood Pressure</th>
-            <th>Position</th>
+            <th>Blood Pressure Sys</th>
+            <th>Blood Pressure Dias</th>
         </tr>
     </table>
 </div>
@@ -89,11 +89,10 @@ $(document).ready(function(){
                 <td>${patient.name}</td>\
                 <td>${patient.age}</td>\
                 <td>${patient.patientId}</td>\
-                <td>${patient.heartRateCur}</td>\
-                <td>${patient.temperatureCur}</td>\
-                <td>${patient.bloodPressureCur}</td>\
-                <td>${patient.positionCur}</td>\
-                <td>${patient.date}</td>\
+                <td>${patient.pulseRateLow}-${patient.pulseRateHigh}</td>\
+                <td>${patient.temperatureLow}-${patient.temperatureHigh}</td>\
+                <td>${patient.bpSysLow}-${patient.bpSysHigh}</td>\
+                <td>${patient.bpDiasLow}-${patient.bpDiasHigh}</td>\
             </tr>\
             `)
         })

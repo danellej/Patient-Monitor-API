@@ -97,6 +97,7 @@ router.post('/parse', function (req, res){
         bloodPressureDias : dias.toFixed(2),
         fullDate : new Date(),
         date : new Date().toISOString().substring(0, 10)
+        // date : new Date().toLocaleDateString()
         // time : new Date().toISOString().substring(11, 19)
     });
     newPatient.save()
@@ -114,43 +115,42 @@ router.post('/parse', function (req, res){
 
         Patient.findOneAndUpdate(updatequery, {time: curTime}, function (err,patient){
             if (err) throw err;
-            console.log("------TIME UPDATED-------")
         });
 
         Patient.findOne((query),(function(err,result){
             if (err) throw (err);
 
             if ((curPulseRate > result.pulseRateHigh) || (curPulseRate < result.pulseRateLow)){
-                console.log("Advise nurse about heart rate");
+                // console.log("Advise nurse about heart rate");
                 msg += ` Current heart rate of ${curPulseRate} and limits of ${result.pulseRateLow}-${result.pulseRateHigh} bpm`
                 alertPulse = true;
             }
             else {
-                console.log("Heart rate safe");
+                // console.log("Heart rate safe");
             }
             if ((curSysPress > result.bpSysHigh) || (curSysPress < result.bpSysLow)){
-                console.log("Advise nurse about blood pressure");
-                msg += ` Current blood pressure of ${curSysPress} and limits of ${result.bpSysLow}/${result.bpDiasLow}-${result.bpSysHigh}/${result.bpDiasHigh} mmHg`
+                // console.log("Advise nurse about blood pressure");
+                msg += ` Current systolic blood pressure of ${curSysPress} and limits of ${result.bpSysLow}/${result.bpDiasLow}-${result.bpSysHigh}/${result.bpDiasHigh} mmHg`
                 alertBP = true;
             }
             else {
-                console.log("blood pressure safe");
+                // console.log("blood pressure safe");
             }
             if ((curDiasPress > result.bpDiasHigh) || (curDiasPress < result.bpDiasLow)){
-                console.log("Advise nurse about blood pressure");
-                msg += ` Current blood pressure of ${curDiasPress} and limits of ${result.bpSysLow}/${result.bpDiasLow}-${result.bpSysHigh}/${result.bpDiasHigh} mmHg`
+                // console.log("Advise nurse about blood pressure");
+                msg += ` Current diastolic blood pressure of ${curDiasPress} and limits of ${result.bpSysLow}/${result.bpDiasLow}-${result.bpSysHigh}/${result.bpDiasHigh} mmHg`
                 alertBP = true;
             }
             else {
-                console.log("blood pressure safe");
+                // console.log("blood pressure safe");
             }
             if ((curTemp > result.temperatureHigh) || (curTemp < result.temperatureLow)){
-                console.log("Advise nurse about temperature");
+                // console.log("Advise nurse about temperature");
                 msg += ` Current temperature of ${curTemp} and limits of ${result.temperatureLow}-${result.temperatureHigh} C`
                 alertTemp = true;
             }
             else {
-                console.log("Temperature safe");
+                // console.log("Temperature safe");
             }
 
             if (alertBP === true){
@@ -180,7 +180,7 @@ router.post('/parse', function (req, res){
 
             var mailOptions = {
                 from : 'patientmonitor2020@gmail.com',
-                to: 'patientmonitor2020@gmail.com',//`${result.nurseEmail}`,
+                to: `${result.nurseEmail}`,//`${result.nurseEmail}`,
                 subject: 'Patient Update',
                 text: `Patient ${result.name} with ID number ${result.patientId} has:` + msg
             };
@@ -190,7 +190,7 @@ router.post('/parse', function (req, res){
                     console.log(err);
                 }
                 else{
-                    console.log('Email sent: ' + typeof info.response);
+                    // console.log('Email sent: ' + typeof info.response);
                     res.send(info.response);
                 }
             });
@@ -208,7 +208,7 @@ router.post('/parse', function (req, res){
 
 //Find all patients
 router.get('/all', function(req,res) {
-    Patient.find((err, patients) => {
+    Patient.find({name: {$ne:null} }, (err, patients) => {
         if (err) throw err;
         res.json(patients);
     });

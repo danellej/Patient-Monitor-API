@@ -442,14 +442,14 @@ $(document).ready(function(){
                 title: "Date"
             },
             data:[{
-                type: "line",
+                type: "scatter",
                 axisYType: "secondary",
                 dataPoints : dataPointsSys,
                 name: "Systolic",
                 showInLegend: true
             },
             {
-                type: "line",
+                type: "scatter",
                 axisYType: "secondary",
                 dataPoints : dataPointsDias,
                 name: "Diastolic",
@@ -486,6 +486,9 @@ $(document).ready(function(){
 </script>
     
 <script> 
+    // function compareDataPointX(dataPoint1, dataPoint2){
+    //     return dataPoint1.x - dataPoint2.x;
+    // }
     document.getElementById("search").addEventListener("click", function(e){
         e.preventDefault();
 
@@ -504,10 +507,12 @@ $(document).ready(function(){
                 title: "Date"
             },
             data:[{
-                type: "line",
+                type: "scatter",
                 dataPoints : dataPointsTMP,
             }]
         });
+        // chart.options.data[0].dataPoints.sort(compareDataPointX);
+
         var patientId = $("#singlePatient").val();
         $.getJSON(`http://localhost:3000/patient/all/${patientId}`, function(data, status){
             $.each(data, function(key, value){
@@ -554,7 +559,7 @@ $(document).ready(function(){
                 title: "Date"
             },
             data:[{
-                type: "line",
+                type: "scatter",
                 dataPoints : dataPointsHRM,
             }]
         });
