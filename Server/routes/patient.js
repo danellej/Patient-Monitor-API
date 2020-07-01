@@ -226,7 +226,7 @@ router.get('/patientId/:patientId', function (req, res){
 router.get('/all/:patientId', function (req, res){
     Patient.find({patientId:req.params.patientId}, function (err, docs){
         res.json(docs)
-    });
+    }).sort({fullDate:1});
 });
 
 //find patient by date
