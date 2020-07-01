@@ -86,7 +86,7 @@ $(document).ready(function(){
         e.preventDefault();
         var patientId = $("#patientId").val();
         $.ajax({
-            url:'http://localhost:3000/patient/'+patientId,
+            url:'http://192.168.1.128:3000/patient/'+patientId,
             type:'DELETE'
         });
         $("#delete-form")[0].reset();

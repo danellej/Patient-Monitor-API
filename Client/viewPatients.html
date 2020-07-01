@@ -81,7 +81,7 @@ $(document).ready(function(){
         e.stopPropagation();
         e.preventDefault();
     });
-    $.get("http://localhost:3000/patient/all", function(data, status){
+    $.get("http://192.168.1.128:3000/patient/all", function(data, status){
         var patients = data;
         patients.map((patient)=>{
             $("#patientTable").append(`\

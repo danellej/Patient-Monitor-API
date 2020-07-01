@@ -151,7 +151,7 @@ $(document).ready(function(){
         var bloodPressureSys = $("#initialSys").val();
         var bloodPressureDias = $("#initialDias").val();
 
-        $.ajax("http://localhost:3000/patient/",{
+        $.ajax("http://192.168.1.128:3000/patient/",{
             contentType: 'application/json',
             data: JSON.stringify({
                 "name":name,

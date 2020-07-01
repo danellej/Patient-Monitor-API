@@ -187,7 +187,7 @@ $(document).ready(function(){
         var patientId = $("#singlePatient").val(); var x = document.getElementById("tempDate").value;
         // document.getElementById("tempMsg").innerHTML = "Date: " + x;
 
-        $.get("http://localhost:3000/patient/date/"+patientId+"/"+x, function(object, status){
+        $.get("http://192.168.1.128:3000/patient/date/"+patientId+"/"+x, function(object, status){
             var alertTable1 = document.getElementById("alertTable1");
 
             var patientData = object;
@@ -219,7 +219,7 @@ $(document).ready(function(){
         var patientId = $("#singlePatient").val(); var x = document.getElementById("bpDate").value;
         // document.getElementById("bpMsg").innerHTML = "Date: " + x;
 
-        $.get("http://localhost:3000/patient/date/"+patientId+"/"+x, function(object, status){
+        $.get("http://192.168.1.128:3000/patient/date/"+patientId+"/"+x, function(object, status){
             var alertTable2 = document.getElementById("alertTable2");
 
             var patientData = object;
@@ -250,7 +250,7 @@ $(document).ready(function(){
         var patientId = $("#singlePatient").val(); var x = document.getElementById("pulseDate").value;
         // document.getElementById("pulseMsg").innerHTML = "Date: " + x;
 
-        $.get("http://localhost:3000/patient/date/"+patientId+"/"+x, function(object, status){
+        $.get("http://192.168.1.128:3000/patient/date/"+patientId+"/"+x, function(object, status){
             var alertTable3 = document.getElementById("alertTable3");
 
             var patientData = object;
@@ -281,7 +281,7 @@ $(document).ready(function(){
     document.getElementById("search").addEventListener("click", function(e){
         e.preventDefault();
         var patientId = $("#singlePatient").val();
-        $.get("http://localhost:3000/patient/patientId/"+patientId, function(patientObject, status){
+        $.get("http://192.168.1.128:3000/patient/patientId/"+patientId, function(patientObject, status){
             var patientName = document.getElementById("patientName");
             var patientAge = document.getElementById("patientAge");
             var patientNurse = document.getElementById("patientNurse");
@@ -335,7 +335,7 @@ $(document).ready(function(){
             `)
         });
 
-        $.get("http://localhost:3000/patient/all/"+patientId, function(data, status){
+        $.get("http://192.168.1.128:3000/patient/all/"+patientId, function(data, status){
             var patientData = data; var tempState; var bpState; var pulseState;
  
             patientData.map((patient)=>{
@@ -458,7 +458,7 @@ $(document).ready(function(){
         ]
         });
         var patientId = $("#singlePatient").val();
-        $.getJSON(`http://localhost:3000/patient/all/${patientId}`, function(data, status){
+        $.getJSON(`http://192.168.1.128:3000/patient/all/${patientId}`, function(data, status){
             $.each(data, function(key, value){
                 console.log(value.bloodPressureCur)
                 dataPointsSys.push({x: new Date(value.fullDate), y: parseInt(value.bloodPressureSys)});
@@ -470,7 +470,7 @@ $(document).ready(function(){
         });
 
         // function updateChart() {
-        //     $.getJSON(`http://localhost:3000/patient/all/${patientId}`, function(data) {
+        //     $.getJSON(`http://192.168.1.128:3000/patient/all/${patientId}`, function(data) {
         //         $.each(data, function(key, value) {
         //             dataPointsBP.push({
         //                 x: value.date,
@@ -514,7 +514,7 @@ $(document).ready(function(){
         // chart.options.data[0].dataPoints.sort(compareDataPointX);
 
         var patientId = $("#singlePatient").val();
-        $.getJSON(`http://localhost:3000/patient/all/${patientId}`, function(data, status){
+        $.getJSON(`http://192.168.1.128:3000/patient/all/${patientId}`, function(data, status){
             $.each(data, function(key, value){
                 if (value.date != null){
                 console.log(value.temperatureCur)
@@ -526,7 +526,7 @@ $(document).ready(function(){
         });
 
         // function updateChart() {
-        //     $.getJSON(`http://localhost:3000/patient/all/${patientId}/`, function(data) {
+        //     $.getJSON(`http://192.168.1.128:3000/patient/all/${patientId}/`, function(data) {
         //         $.each(data, function(key, value) {
         //             dataPointsTMP.push({
         //                 x: value.date,
@@ -564,7 +564,7 @@ $(document).ready(function(){
             }]
         });
         var patientId = $("#singlePatient").val();
-        $.getJSON(`http://localhost:3000/patient/all/${patientId}`, function(data, status){
+        $.getJSON(`http://192.168.1.128:3000/patient/all/${patientId}`, function(data, status){
             $.each(data, function(key, value){
                 console.log(value.pulseRateCur)
                 dataPointsHRM.push({x: new Date(value.fullDate), y: parseInt(value.pulseRateCur)});
@@ -575,7 +575,7 @@ $(document).ready(function(){
         });
 
         // function updateChart() {
-        //     $.getJSON(`http://localhost:3000/patient/all/${patientId}`, function(data) {
+        //     $.getJSON(`http://192.168.1.128:3000/patient/all/${patientId}`, function(data) {
         //         $.each(data, function(key, value) {
         //             dataPointsHRM.push({
         //                 x: value.date,
@@ -593,7 +593,7 @@ $(document).ready(function(){
     document.getElementById("search").addEventListener("click", function(e){
         e.preventDefault();
     var patientId = $("#singlePatient").val();
-    $.get(`http://localhost:3000/patient/all/${patientId}`, function(patientObject, status){
+    $.get(`http://192.168.1.128:3000/patient/all/${patientId}`, function(patientObject, status){
     var bpTable = document.getElementById("bpTable");
             
             bpTableCaption.innerHTML = "Patient Blood Pressure";

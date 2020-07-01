@@ -234,7 +234,7 @@ router.get('/date/:patientId/:date', function (req, res){
     console.log("Get date")
     Patient.find({patientId: req.params.patientId, date: req.params.date}, function (err, docs){
         res.json(docs)
-    });
+    }).sort({fullDate:1});
 });
 
 //Update a patient
