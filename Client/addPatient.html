@@ -108,9 +108,9 @@
             <label for="bloodPressureCur">Current Blood Pressure</label>
                 <form class="form-inline">
                     <div class="form-group">
-                        <label for="initalSys">Systolic:</label>
+                        <label for="initialSys">Systolic:</label>
                         <input type="text" class="form-control:" id="initialSys">
-                        <label for="initalDias">Diastolic:</label>
+                        <label for="initialDias">Diastolic:</label>
                         <input type="text" class="form-control:" id="initialDias">
                     </div>
                 </form>
@@ -171,7 +171,8 @@ $(document).ready(function(){
             }),
             type: 'POST'
         });
-         $("#create-form")[0].reset(); //doesn't reset BP and Temperature fields
+        // $("#create-form")[0].reset(); //doesn't reset BP and Temperature fields
+         document.getElementById("create-form").reset();
     });
 </script>
 

@@ -13,6 +13,8 @@ require('dotenv').config();
 app.use(express.json());
 app.use(cors());
 
+process.env.NTBA_FIX_319 = 1;
+
 console.log(process.env.PATIENT_MONITOR_MONGO);
 
 const mongoose = require('mongoose');

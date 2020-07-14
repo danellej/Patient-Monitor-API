@@ -123,7 +123,8 @@ router.post('/parse', function (req, res){
             if ((curPulseRate > result.pulseRateHigh) || (curPulseRate < result.pulseRateLow)){
                 // console.log("Advise nurse about heart rate");
                 msg += ` Current heart rate of ${curPulseRate} and limits of ${result.pulseRateLow}-${result.pulseRateHigh} bpm`
-                bot.sendMessage(-495566996, msg);
+                var chat =`Patient ${result.name} with ID number ${result.patientId} has:` + msg
+                bot.sendMessage(-495566996, chat);
                 alertPulse = true;
             }
             else {
@@ -132,7 +133,8 @@ router.post('/parse', function (req, res){
             if ((curSysPress > result.bpSysHigh) || (curSysPress < result.bpSysLow)){
                 // console.log("Advise nurse about blood pressure");
                 msg += ` Current systolic blood pressure of ${curSysPress} and limits of ${result.bpSysLow}-${result.bpSysHigh} mmHg`
-                bot.sendMessage(-495566996, msg);
+                var chat =`Patient ${result.name} with ID number ${result.patientId} has:` + msg
+                bot.sendMessage(-495566996, chat);
                 alertBP = true;
             }
             else {
@@ -141,7 +143,8 @@ router.post('/parse', function (req, res){
             if ((curDiasPress > result.bpDiasHigh) || (curDiasPress < result.bpDiasLow)){
                 // console.log("Advise nurse about blood pressure");
                 msg += ` Current diastolic blood pressure of ${curDiasPress} and limits of ${result.bpDiasLow}-${result.bpDiasHigh} mmHg`
-                bot.sendMessage(-495566996, msg);
+                var chat =`Patient ${result.name} with ID number ${result.patientId} has:` + msg
+                bot.sendMessage(-495566996, chat);
                 alertBP = true;
             }
             else {
@@ -150,7 +153,8 @@ router.post('/parse', function (req, res){
             if ((curTemp > result.temperatureHigh) || (curTemp < result.temperatureLow)){
                 // console.log("Advise nurse about temperature");
                 msg += ` Current temperature of ${curTemp} and limits of ${result.temperatureLow}-${result.temperatureHigh} C`
-                bot.sendMessage(-495566996, msg);
+                var chat =`Patient ${result.name} with ID number ${result.patientId} has:` + msg
+                bot.sendMessage(-495566996, chat);
                 alertTemp = true;
             }
             else {
