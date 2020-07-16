@@ -96,8 +96,8 @@ router.post('/parse', function (req, res){
         bloodPressureSys : sys.toFixed(2),
         bloodPressureDias : dias.toFixed(2),
         fullDate : new Date(),
-        // date : new Date().toISOString().substring(0, 10)
-        date : new Date().toLocaleDateString()
+        date : new Date().toISOString().substring(0, 10)
+        // date : new Date().toLocaleDateString().substring(0,10)
         // date : new Date().toLocaleDateString()
         // time : new Date().toISOString().substring(11, 19)
     });
