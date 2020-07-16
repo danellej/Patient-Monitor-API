@@ -280,6 +280,7 @@ $(document).ready(function(){
 <script>
     document.getElementById("search").addEventListener("click", function(e){
         e.preventDefault();
+        $("#patientTable tr").remove();
         var patientId = $("#singlePatient").val();
         $.get("http://192.168.1.128:3000/patient/patientId/"+patientId, function(patientObject, status){
             var patientName = document.getElementById("patientName");
@@ -519,7 +520,7 @@ $(document).ready(function(){
         $.getJSON(`http://192.168.1.128:3000/patient/all/${patientId}`, function(data, status){
             $.each(data, function(key, value){
                 if (value.date != null){
-                console.log(value.temperatureCur)
+                // console.log(value.temperatureCur)
                 dataPointsTMP.push({x: new Date(value.fullDate), y: parseInt(value.temperatureCur)});
                 // chart.options.stripLines.value= value.bloodPressureHigh
             }});
@@ -568,7 +569,7 @@ $(document).ready(function(){
         var patientId = $("#singlePatient").val();
         $.getJSON(`http://192.168.1.128:3000/patient/all/${patientId}`, function(data, status){
             $.each(data, function(key, value){
-                console.log(value.pulseRateCur)
+                // console.log(value.pulseRateCur)
                 dataPointsHRM.push({x: new Date(value.fullDate), y: parseInt(value.pulseRateCur)});
                 // chart.options.stripLines.value= value.bloodPressureHigh
             });

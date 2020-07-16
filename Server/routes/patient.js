@@ -96,7 +96,8 @@ router.post('/parse', function (req, res){
         bloodPressureSys : sys.toFixed(2),
         bloodPressureDias : dias.toFixed(2),
         fullDate : new Date(),
-        date : new Date().toISOString().substring(0, 10)
+        // date : new Date().toISOString().substring(0, 10)
+        date : new Date().toLocaleDateString()
         // date : new Date().toLocaleDateString()
         // time : new Date().toISOString().substring(11, 19)
     });
@@ -111,7 +112,8 @@ router.post('/parse', function (req, res){
         var curDiasPress = parseInt(patient.bloodPressureDias);
         var curTemp = parseInt(patient.temperatureCur);
 
-        var curTime = (patient.fullDate).toISOString().substring(11, 19);
+        // var curTime = (patient.fullDate).toISOString().substring(11, 19);
+        var curTime = (patient.fullDate).toLocaleTimeString();
 
         Patient.findOneAndUpdate(updatequery, {time: curTime}, function (err,patient){
             if (err) throw err;
